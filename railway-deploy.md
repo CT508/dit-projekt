@@ -81,17 +81,26 @@ SHOP_OWNER_PASSWORD="temporary-test-password"
 
 ## 6. Build Command
 
-Railway should use:
+Railway should use Railpack via `railway.json`:
 
 ```bash
-npm install
-npm run build
+npm run prisma:generate && npm run build
 ```
 
 Start command:
 
 ```bash
 npm run start
+```
+
+If Railway shows a Nixpacks `$NIXPACKS_PATH` build error, make sure the latest committed `railway.json` uses:
+
+```json
+{
+  "build": {
+    "builder": "RAILPACK"
+  }
+}
 ```
 
 ## 7. Database Migration
@@ -129,4 +138,3 @@ lib/data/mock-data.ts
 Next engineering step:
 
 Replace mock data with Prisma queries and add seed/import persistence.
-
