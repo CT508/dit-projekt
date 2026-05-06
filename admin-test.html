@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin test - master EAN import</title>
+  <style>
+    :root {
+      --ink: #20272c;
+      --muted: #68767f;
+      --soft: #f4f7f8;
+      --panel: #ffffff;
+      --line: #dde5e9;
+      --green: #087a4a;
+      --blue: #2457c5;
+      --red: #c73954;
+      --yellow: #f6c23e;
+      --shadow: 0 8px 24px rgba(28, 41, 50, .08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--soft);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 750;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav,
+    main {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 16px 22px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      font-size: .82rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 14px 0;
+    }
+
+    .panel,
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .panel {
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .panel h1,
+    .panel h2,
+    .panel h3 {
+      margin-top: 0;
+      letter-spacing: 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .stat {
+      min-height: 102px;
+      padding: 15px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 9px;
+      border-radius: 999px;
+      color: var(--green);
+      background: #e4f6ee;
+      font-size: .82rem;
+      font-weight: 850;
+    }
+
+    .badge.warn {
+      color: #8a5a00;
+      background: #fff4cf;
+    }
+
+    .badge.error {
+      color: var(--red);
+      background: #fff0f2;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .product {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .product img {
+      width: 140px;
+      height: 140px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #eef3f5;
+    }
+
+    .rules {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .rules li {
+      padding: 10px;
+      border-left: 4px solid var(--green);
+      border-radius: 7px;
+      background: #f6fbf8;
+    }
+
+    @media (max-width: 760px) {
+      .grid,
+      .product {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav">
+      <div class="brand"><span class="mark">PP</span> Admin test</div>
+      <a href="./index.html">Tilbage til produktmockup</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h1>Importtest: Grafisk Handel Google-feed</h1>
+      <p class="muted">Denne statiske test viser hvordan Epson-masterproduktet fra live-feedet bliver accepteret, fordi GTIN/EAN findes i masterdatabasen.</p>
+      <div class="grid">
+        <div class="stat"><strong>1</strong><span>approved master EAN</span></div>
+        <div class="stat"><strong>1</strong><span>accepted live-feed offer</span></div>
+        <div class="stat"><strong>100 MB</strong><span>max feed size</span></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Approved master product</h2>
+      <div class="product">
+        <img src="https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg" alt="Epson Cyan T44J2">
+        <div>
+          <span class="badge">APPROVED</span>
+          <h3>Epson Cyan T44J2 - 700 ml blækpatron</h3>
+          <p><strong>EAN:</strong> 8715946668031</p>
+          <p><strong>SKU/MPN:</strong> C13T44J240 <span class="muted">(metadata only, not used for matching)</span></p>
+          <p><strong>Brand:</strong> Epson · <strong>Category:</strong> Printer Ink</p>
+          <p class="muted">Compatible with Epson SureColor P7500 and Epson SureColor P9500.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Accepted offer from feed</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Feed field</th>
+            <th>Value</th>
+            <th>Internal mapping</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>g:gtin</td><td>8715946668031</td><td>ean</td></tr>
+          <tr><td>title</td><td>Epson Cyan T44J2 - 700 ml blækpatron</td><td>product_title</td></tr>
+          <tr><td>g:price</td><td>2039,68 DKK</td><td>price 2039.68 + currency DKK</td></tr>
+          <tr><td>g:shipping/g:price</td><td>43,75 DKK</td><td>shipping_cost 43.75</td></tr>
+          <tr><td>g:availability</td><td>in stock</td><td>stock_status in_stock</td></tr>
+          <tr><td>link</td><td><a href="https://www.grafisk-handel.dk/shop/epson-cyan-t44j2-9732p.html">Product URL</a></td><td>product_url</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Import result</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Row</th>
+            <th>EAN</th>
+            <th>Status</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>334015</td>
+            <td>8715946668031</td>
+            <td><span class="badge">ACCEPTED</span></td>
+            <td>EAN exists in approved master_products and checksum is valid.</td>
+          </tr>
+          <tr>
+            <td>test row</td>
+            <td>8715946668032</td>
+            <td><span class="badge error">REJECTED</span></td>
+            <td>INVALID_EAN_CHECKSUM</td>
+          </tr>
+          <tr>
+            <td>other feed rows</td>
+            <td>not in master</td>
+            <td><span class="badge warn">REJECTED</span></td>
+            <td>EAN_NOT_APPROVED until admin creates and approves master EAN records.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Large feed handling</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Limit</th>
+            <th>Value</th>
+            <th>Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Max feed size</td><td>100 MB</td><td>Reject larger uploads/feed URLs with FEED_TOO_LARGE.</td></tr>
+          <tr><td>Parser mode</td><td>Streaming</td><td>Read one Google Merchant item at a time, not the full XML in memory.</td></tr>
+          <tr><td>Max item buffer</td><td>512 KB</td><td>Stop malformed or unusually huge XML items before memory grows.</td></tr>
+          <tr><td>Recommended batch writes</td><td>500 rows</td><td>Persist accepted offers and import errors in batches.</td></tr>
+          <tr><td>Recommended checkpoints</td><td>1,000 rows</td><td>Allow progress UI and safe retry/resume behavior.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Non-negotiable matching rules</h2>
+      <ul class="rules">
+        <li>Match only when normalized feed GTIN/EAN equals approved master_products.ean.</li>
+        <li>SKU/MPN C13T44J240 is useful metadata, but it must never match the product.</li>
+        <li>Product title can be displayed, searched, and audited, but it must never attach an offer to a master product.</li>
+        <li>If EAN is missing, invalid, duplicate, or not approved, the row is rejected and shown in import_errors.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

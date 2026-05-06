@@ -1,0 +1,1159 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AuraPods Pro 2 - pris, tilbud og anmeldelser | PrisPuls</title>
+  <meta name="description" content="Sammenlign priser på AuraPods Pro 2. Se billigste butik, fragt, levering, prisudvikling, specifikationer, anmeldelser og ofte stillede spørgsmål.">
+  <meta name="robots" content="index,follow">
+  <style>
+    :root {
+      --ink: #20272c;
+      --muted: #68767f;
+      --soft: #f4f7f8;
+      --line: #dde5e9;
+      --panel: #ffffff;
+      --green: #087a4a;
+      --green-2: #e4f6ee;
+      --blue: #2457c5;
+      --orange: #f07a2a;
+      --yellow: #f6c23e;
+      --red: #c73954;
+      --shadow: 0 8px 24px rgba(28, 41, 50, .08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--soft);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .97);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      max-width: 1220px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 18px;
+      align-items: center;
+      padding: 13px 22px;
+    }
+
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-weight: 900;
+      font-size: 1.2rem;
+      white-space: nowrap;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      font-size: .82rem;
+      letter-spacing: 0;
+    }
+
+    .search {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      align-items: center;
+      min-height: 48px;
+      border: 2px solid #17242a;
+      border-radius: 7px;
+      background: white;
+      overflow: hidden;
+    }
+
+    .search-icon {
+      text-align: center;
+      color: var(--muted);
+      font-size: 1.2rem;
+    }
+
+    .search input {
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+    }
+
+    .search button,
+    .cta {
+      border: 0;
+      color: white;
+      background: var(--green);
+      font-weight: 850;
+    }
+
+    .search button {
+      align-self: stretch;
+      padding: 0 20px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: white;
+      color: var(--ink);
+      font-size: 1rem;
+    }
+
+    .container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 18px 22px 42px;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 4px 0 14px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .breadcrumbs span {
+      color: #9aa5ab;
+    }
+
+    .product-hero {
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr) 320px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel,
+    .offer,
+    .seo-block,
+    .side-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .gallery {
+      padding: 18px;
+    }
+
+    .main-image {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #eef3f5, #fff);
+      overflow: hidden;
+    }
+
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .thumb {
+      min-height: 58px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: white;
+      font-weight: 800;
+    }
+
+    .summary {
+      padding: 6px 0 0;
+      min-width: 0;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: var(--green);
+      background: var(--green-2);
+      font-size: .82rem;
+      font-weight: 850;
+    }
+
+    h1 {
+      margin: 10px 0 8px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 680px;
+      margin: 0 0 12px;
+      color: #46545d;
+      font-size: 1.02rem;
+    }
+
+    .rating-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 14px 0;
+    }
+
+    .stars {
+      color: var(--orange);
+      font-size: 1.08rem;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .rating-row strong {
+      font-weight: 900;
+    }
+
+    .trust-badges {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .trust-badge {
+      min-height: 68px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+    }
+
+    .trust-badge strong {
+      display: block;
+      font-size: .95rem;
+    }
+
+    .trust-badge span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .variant-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .variant {
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 13px;
+      background: white;
+      font-weight: 800;
+    }
+
+    .variant.active {
+      border-color: var(--green);
+      color: var(--green);
+      background: var(--green-2);
+    }
+
+    .buybox {
+      padding: 18px;
+      position: sticky;
+      top: 82px;
+    }
+
+    .price-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: .86rem;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    .price {
+      margin: 2px 0 8px;
+      color: var(--green);
+      font-size: 2.45rem;
+      line-height: 1;
+      font-weight: 950;
+    }
+
+    .buybox p {
+      margin: 0 0 10px;
+      color: var(--muted);
+    }
+
+    .cta {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .secondary-btn {
+      width: 100%;
+      min-height: 42px;
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--ink);
+      background: white;
+      font-weight: 850;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .tabs {
+      position: sticky;
+      top: 75px;
+      z-index: 7;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      margin: 18px 0;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .96);
+      box-shadow: var(--shadow);
+    }
+
+    .tabs a {
+      flex: 0 0 auto;
+      padding: 9px 13px;
+      border-radius: 7px;
+      color: var(--ink);
+      font-weight: 850;
+      font-size: .92rem;
+    }
+
+    .tabs a.active {
+      color: white;
+      background: var(--green);
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 18px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: end;
+      margin: 0 0 12px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+
+    .section-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+    }
+
+    .sort {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .sort select {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: white;
+      color: var(--ink);
+      padding: 0 8px;
+    }
+
+    .offer-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .offer {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 150px 150px;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .seller {
+      display: flex;
+      gap: 12px;
+      min-width: 0;
+      align-items: start;
+    }
+
+    .logo {
+      flex: 0 0 auto;
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: white;
+      background: #27343a;
+      font-weight: 950;
+    }
+
+    .seller h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+
+    .seller p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .seller-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      font-size: .85rem;
+      font-weight: 750;
+    }
+
+    .delivery {
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .delivery strong {
+      display: block;
+      color: var(--ink);
+      font-size: .95rem;
+    }
+
+    .offer-price {
+      text-align: right;
+    }
+
+    .offer-price strong {
+      display: block;
+      color: var(--green);
+      font-size: 1.45rem;
+      line-height: 1.1;
+    }
+
+    .offer-price span {
+      display: block;
+      margin: 3px 0 9px;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .go-btn {
+      min-width: 120px;
+      min-height: 40px;
+      border: 0;
+      border-radius: 8px;
+      color: white;
+      background: var(--orange);
+      font-weight: 900;
+    }
+
+    .seo-block {
+      margin-top: 18px;
+      padding: 18px;
+    }
+
+    .seo-block h2 {
+      margin: 0 0 12px;
+      font-size: 1.32rem;
+      letter-spacing: 0;
+    }
+
+    .specs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .spec {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      min-height: 42px;
+      padding: 10px;
+      border-radius: 7px;
+      background: #f7fafa;
+    }
+
+    .spec span:first-child {
+      color: var(--muted);
+    }
+
+    .spec span:last-child {
+      font-weight: 800;
+    }
+
+    .chart {
+      position: relative;
+      height: 240px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(#edf2f4 1px, transparent 1px) 0 0 / 100% 25%,
+        linear-gradient(90deg, #edf2f4 1px, transparent 1px) 0 0 / 16.66% 100%,
+        white;
+      overflow: hidden;
+    }
+
+    .chart svg {
+      position: absolute;
+      inset: 24px;
+      width: calc(100% - 48px);
+      height: calc(100% - 48px);
+      overflow: visible;
+    }
+
+    .chart-note {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      padding: 7px 9px;
+      border-radius: 7px;
+      color: var(--green);
+      background: var(--green-2);
+      font-size: .85rem;
+      font-weight: 900;
+    }
+
+    .reviews {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 18px;
+    }
+
+    .score {
+      padding: 18px;
+      border-radius: 8px;
+      color: white;
+      background: #28353b;
+      text-align: center;
+    }
+
+    .score strong {
+      display: block;
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .review-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .review {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfc;
+    }
+
+    .review strong {
+      display: block;
+    }
+
+    .review p {
+      margin: 5px 0 0;
+      color: var(--muted);
+    }
+
+    .faq {
+      display: grid;
+      gap: 10px;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      padding: 12px 14px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    details p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .side-card {
+      padding: 16px;
+    }
+
+    .side-card h2 {
+      margin: 0 0 10px;
+      font-size: 1.08rem;
+      letter-spacing: 0;
+    }
+
+    .mini-product {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 10px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .mini-product:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .mini-product img {
+      width: 58px;
+      height: 58px;
+      border-radius: 7px;
+      object-fit: cover;
+      background: #eef3f5;
+    }
+
+    .mini-product strong {
+      display: block;
+      font-size: .92rem;
+      line-height: 1.2;
+    }
+
+    .mini-product span {
+      color: var(--green);
+      font-weight: 900;
+      font-size: .9rem;
+    }
+
+    .coupon {
+      border-left: 5px solid var(--yellow);
+      background: #fffaf0;
+    }
+
+    footer {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    @media (max-width: 1040px) {
+      .product-hero,
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .buybox {
+        position: static;
+      }
+
+      .gallery {
+        max-width: 520px;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .nav {
+        grid-template-columns: 1fr auto;
+      }
+
+      .search {
+        grid-column: 1 / -1;
+        order: 3;
+      }
+
+      .offer {
+        grid-template-columns: 1fr;
+      }
+
+      .offer-price {
+        text-align: left;
+      }
+
+      .trust-badges,
+      .specs,
+      .reviews {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        top: 124px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container,
+      .nav {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .nav-actions .icon-btn:nth-child(2) {
+        display: none;
+      }
+
+      .product-hero {
+        gap: 12px;
+      }
+
+      .gallery {
+        padding: 12px;
+      }
+
+      .price {
+        font-size: 2.1rem;
+      }
+
+      .spec {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+    }
+  </style>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "AuraPods Pro 2 trådløse høretelefoner",
+      "description": "Trådløse høretelefoner med aktiv støjreduktion, adaptiv lyd og op til 30 timers batteritid.",
+      "brand": { "@type": "Brand", "name": "Aura" },
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "312" },
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "899",
+        "highPrice": "1049",
+        "priceCurrency": "DKK",
+        "offerCount": "18"
+      }
+    }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav" aria-label="Primær navigation">
+      <a class="brand" href="#" aria-label="PrisPuls forside">
+        <span class="mark">PP</span>
+        PrisPuls
+      </a>
+      <form class="search" role="search">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input aria-label="Søg efter produkter" placeholder="Søg efter produkt, kategori eller butik">
+        <button type="submit">Søg</button>
+      </form>
+      <div class="nav-actions">
+        <button class="icon-btn" type="button" aria-label="Prisalarmer" title="Prisalarmer">↧</button>
+        <button class="icon-btn" type="button" aria-label="Favoritter" title="Favoritter">♡</button>
+        <button class="icon-btn" type="button" aria-label="Menu" title="Menu">☰</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <nav class="breadcrumbs" aria-label="Brødkrummer">
+      <a href="#">Forside</a><span>/</span>
+      <a href="#">Lyd</a><span>/</span>
+      <a href="#">Høretelefoner</a><span>/</span>
+      <span>AuraPods Pro 2</span>
+    </nav>
+
+    <section class="product-hero" aria-label="Produktoversigt">
+      <div class="gallery panel">
+        <div class="main-image">
+          <img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=80" alt="AuraPods Pro 2 trådløse høretelefoner i hvid">
+        </div>
+        <div class="thumbs" aria-label="Produktbilleder">
+          <button class="thumb" type="button">1</button>
+          <button class="thumb" type="button">2</button>
+          <button class="thumb" type="button">3</button>
+          <button class="thumb" type="button">360</button>
+        </div>
+      </div>
+
+      <div class="summary">
+        <span class="label">18 butikker sammenlignet</span>
+        <h1>AuraPods Pro 2 trådløse høretelefoner</h1>
+        <p class="lead">In-ear høretelefoner med aktiv støjreduktion, transparenstilstand, rumlig lyd, trådløs opladning og op til 30 timers samlet batteritid.</p>
+        <div class="rating-row">
+          <span class="stars" aria-label="4,8 ud af 5 stjerner">★★★★★</span>
+          <strong>4,8</strong>
+          <a href="#anmeldelser">312 anmeldelser</a>
+          <span>250+ købt via PrisPuls de seneste 90 dage</span>
+        </div>
+
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <strong>Køberbeskyttelse</strong>
+            <span>Gælder hos markerede butikker</span>
+          </div>
+          <div class="trust-badge">
+            <strong>Prisfald 28%</strong>
+            <span>Laveste registrerede pris i 90 dage</span>
+          </div>
+          <div class="trust-badge">
+            <strong>Hurtig levering</strong>
+            <span>7 butikker sender indenfor 24 timer</span>
+          </div>
+        </div>
+
+        <p class="price-label">Vælg variant</p>
+        <div class="variant-row">
+          <button class="variant active" type="button">Hvid</button>
+          <button class="variant" type="button">Sort</button>
+          <button class="variant" type="button">Sølv</button>
+          <button class="variant" type="button">USB-C case</button>
+        </div>
+      </div>
+
+      <aside class="buybox panel" aria-label="Bedste pris">
+        <p class="price-label">Billigste pris lige nu</p>
+        <div class="price">899 kr.</div>
+        <p>SoundStreet · gratis fragt · levering i morgen</p>
+        <button class="cta" type="button">Gå til billigste butik</button>
+        <button class="secondary-btn" type="button">Opret prisalarm</button>
+        <div class="mini-list">
+          <span>✓ 18 aktive tilbud</span>
+          <span>✓ Pris inkl. fragt fra 899 kr.</span>
+          <span>✓ Senest opdateret for 8 minutter siden</span>
+        </div>
+      </aside>
+    </section>
+
+    <nav class="tabs" aria-label="Produktmenu">
+      <a class="active" href="#tilbud">Tilbud (18)</a>
+      <a href="#produktinfo">Produktinfo</a>
+      <a href="#prishistorik">Prishistorik</a>
+      <a href="#anmeldelser">Anmeldelser</a>
+      <a href="#faq">Spørgsmål</a>
+    </nav>
+
+    <div class="main-grid">
+      <div>
+        <section id="tilbud" aria-labelledby="tilbud-title">
+          <div class="section-title">
+            <div>
+              <h2 id="tilbud-title">AuraPods Pro 2 - tilbud fra butikker</h2>
+              <p>Sammenlign pris, fragt, leveringstid og butiksrating.</p>
+            </div>
+            <label class="sort">Sorter
+              <select aria-label="Sorter tilbud">
+                <option>Bedste tilbud</option>
+                <option>Laveste pris</option>
+                <option>Laveste pris inkl. fragt</option>
+                <option>Hurtigste levering</option>
+                <option>Højeste rating</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="offer-list">
+            <article class="offer">
+              <div class="seller">
+                <span class="logo">SS</span>
+                <div>
+                  <h3>SoundStreet</h3>
+                  <p>AuraPods Pro 2 ANC høretelefoner, hvid, USB-C opladningsetui</p>
+                  <div class="seller-links"><a href="#">Butiksdata</a><a href="#">Se tilbud</a><a href="#">Rapporter fejl</a></div>
+                </div>
+              </div>
+              <div class="delivery">
+                <strong>Gratis fragt</strong>
+                Levering i morgen · på lager
+              </div>
+              <div class="offer-price">
+                <strong>899 kr.</strong>
+                <span>899 kr. inkl. fragt</span>
+                <button class="go-btn" type="button">Gå til butik</button>
+              </div>
+            </article>
+
+            <article class="offer">
+              <div class="seller">
+                <span class="logo">NT</span>
+                <div>
+                  <h3>NordicTech</h3>
+                  <p>AuraPods Pro 2 med aktiv støjreduktion og MagCharge case</p>
+                  <div class="seller-links"><a href="#">Butiksdata</a><a href="#">Se tilbud</a><a href="#">Rapporter fejl</a></div>
+                </div>
+              </div>
+              <div class="delivery">
+                <strong>Gratis fragt</strong>
+                Sendes i dag · på lager
+              </div>
+              <div class="offer-price">
+                <strong>929 kr.</strong>
+                <span>929 kr. inkl. fragt</span>
+                <button class="go-btn" type="button">Gå til butik</button>
+              </div>
+            </article>
+
+            <article class="offer">
+              <div class="seller">
+                <span class="logo">EH</span>
+                <div>
+                  <h3>Elhuset</h3>
+                  <p>AuraPods Pro 2 trådløse earbuds, hvid, 2026-model</p>
+                  <div class="seller-links"><a href="#">Butiksdata</a><a href="#">Se tilbud</a><a href="#">Rapporter fejl</a></div>
+                </div>
+              </div>
+              <div class="delivery">
+                <strong>Fragt 29 kr.</strong>
+                Afhentning mulig · få tilbage
+              </div>
+              <div class="offer-price">
+                <strong>918 kr.</strong>
+                <span>947 kr. inkl. fragt</span>
+                <button class="go-btn" type="button">Gå til butik</button>
+              </div>
+            </article>
+
+            <article class="offer">
+              <div class="seller">
+                <span class="logo">MM</span>
+                <div>
+                  <h3>MegaMarket</h3>
+                  <p>AuraPods Pro 2 høretelefoner, hvid, nordisk emballage</p>
+                  <div class="seller-links"><a href="#">Butiksdata</a><a href="#">Se tilbud</a><a href="#">Rapporter fejl</a></div>
+                </div>
+              </div>
+              <div class="delivery">
+                <strong>Fragt 39 kr.</strong>
+                Fjernlager · 3-5 hverdage
+              </div>
+              <div class="offer-price">
+                <strong>949 kr.</strong>
+                <span>988 kr. inkl. fragt</span>
+                <button class="go-btn" type="button">Gå til butik</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="seo-block" id="produktinfo">
+          <h2>AuraPods Pro 2 specifikationer</h2>
+          <div class="specs">
+            <div class="spec"><span>Type</span><span>In-ear, trådløs</span></div>
+            <div class="spec"><span>Støjreduktion</span><span>Aktiv ANC + transparens</span></div>
+            <div class="spec"><span>Batteritid</span><span>Op til 30 timer med case</span></div>
+            <div class="spec"><span>Opladning</span><span>USB-C og trådløs</span></div>
+            <div class="spec"><span>Forbindelse</span><span>Bluetooth 5.4</span></div>
+            <div class="spec"><span>Vandtæthed</span><span>IP54</span></div>
+            <div class="spec"><span>Mikrofon</span><span>6 beamforming mikrofoner</span></div>
+            <div class="spec"><span>Vægt</span><span>5,3 g pr. earbud</span></div>
+          </div>
+        </section>
+
+        <section class="seo-block">
+          <h2>Om AuraPods Pro 2</h2>
+          <p>AuraPods Pro 2 er et populært valg for dig, der vil have kompakte høretelefoner med effektiv støjreduktion, god talekvalitet og nem opladning. På denne produktside kan du sammenligne aktuelle priser fra danske webshops, se om fragten er inkluderet, og vurdere om prisen er attraktiv ud fra historikken.</p>
+          <p>Den laveste pris er ikke altid det bedste køb. Derfor viser PrisPuls både pris inkl. fragt, leveringstid, butiksrating og oplysninger om lagerstatus. Det gør siden velegnet til søgninger som "AuraPods Pro 2 pris", "billigste AuraPods Pro 2" og "AuraPods Pro 2 tilbud".</p>
+        </section>
+
+        <section class="seo-block" id="prishistorik">
+          <h2>Prishistorik og trend</h2>
+          <div class="chart" aria-label="Illustreret prisgraf for AuraPods Pro 2">
+            <span class="chart-note">Laveste pris i 90 dage</span>
+            <svg viewBox="0 0 620 190" role="img" aria-label="Prisgraf der falder fra 1249 kroner til 899 kroner">
+              <path d="M0 35 C70 46 90 58 135 55 S230 22 285 62 S365 118 420 96 S520 132 620 148" fill="none" stroke="#087a4a" stroke-width="8" stroke-linecap="round"/>
+              <path d="M0 35 C70 46 90 58 135 55 S230 22 285 62 S365 118 420 96 S520 132 620 148 L620 190 L0 190 Z" fill="rgba(8, 122, 74, .12)"/>
+              <circle cx="620" cy="148" r="9" fill="#087a4a"/>
+            </svg>
+          </div>
+        </section>
+
+        <section class="seo-block" id="anmeldelser">
+          <h2>Anmeldelser og vurderinger</h2>
+          <div class="reviews">
+            <div class="score">
+              <strong>4,8</strong>
+              <span>312 anmeldelser</span>
+              <div class="stars" aria-hidden="true">★★★★★</div>
+            </div>
+            <div class="review-list">
+              <article class="review">
+                <strong>Meget stærk ANC og god pasform</strong>
+                <p>Lyden er balanceret, støjreduktionen fungerer godt i tog og kontor, og etuiet er nemt at oplade.</p>
+              </article>
+              <article class="review">
+                <strong>Godt køb til prisen</strong>
+                <p>Jeg ventede på prisalarm og købte ved 899 kr. Det føles som det rigtige niveau for modellen.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="seo-block" id="faq">
+          <h2>Ofte stillede spørgsmål</h2>
+          <div class="faq">
+            <details open>
+              <summary>Hvor er AuraPods Pro 2 billigst lige nu?</summary>
+              <p>Den billigste viste pris er 899 kr. hos SoundStreet, inklusive gratis fragt og levering i morgen.</p>
+            </details>
+            <details>
+              <summary>Kan jeg se prisen inklusive fragt?</summary>
+              <p>Ja, tilbudslisten viser både produktpris, fragt og samlet pris, så du kan sammenligne reelt.</p>
+            </details>
+            <details>
+              <summary>Hvornår bør jeg oprette prisalarm?</summary>
+              <p>Hvis du ikke skal købe med det samme, kan en prisalarm på eksempelvis 799 kr. være en fornuftig grænse.</p>
+            </details>
+          </div>
+        </section>
+      </div>
+
+      <aside class="side-stack" aria-label="Relateret indhold">
+        <section class="side-card coupon">
+          <h2>Aktuel fordel</h2>
+          <p>Gratis levering hos 7 butikker og mulighed for 10 ratebetalinger hos udvalgte sælgere.</p>
+        </section>
+
+        <section class="side-card">
+          <h2>Varianter af produktet</h2>
+          <article class="mini-product">
+            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?auto=format&fit=crop&w=240&q=80" alt="AuraPods Pro 2 sort">
+            <div><strong>AuraPods Pro 2 Sort</strong><span>fra 929 kr.</span></div>
+          </article>
+          <article class="mini-product">
+            <img src="https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?auto=format&fit=crop&w=240&q=80" alt="AuraPods Pro 2 sølv">
+            <div><strong>AuraPods Pro 2 Sølv</strong><span>fra 949 kr.</span></div>
+          </article>
+          <article class="mini-product">
+            <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=240&q=80" alt="AuraPods Lite">
+            <div><strong>AuraPods Lite</strong><span>fra 499 kr.</span></div>
+          </article>
+        </section>
+
+        <section class="side-card">
+          <h2>Populære alternativer</h2>
+          <article class="mini-product">
+            <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=240&q=80" alt="SoundCore Q45">
+            <div><strong>SoundCore Q45</strong><span>fra 699 kr.</span></div>
+          </article>
+          <article class="mini-product">
+            <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=240&q=80" alt="NordBuds Max">
+            <div><strong>NordBuds Max</strong><span>fra 849 kr.</span></div>
+          </article>
+        </section>
+      </aside>
+    </div>
+
+    <footer>
+      PrisPuls er et fiktivt produkt-side mockup inspireret af SEO-stærke prissammenligningssider: breadcrumbs, produkttitel, tilbud, butiksdata, specifikationer, prisgraf, anmeldelser og FAQ.
+    </footer>
+  </main>
+
+  <a href="./admin-test.html" style="position:fixed;right:16px;bottom:16px;z-index:20;display:inline-flex;align-items:center;min-height:42px;padding:0 14px;border-radius:8px;color:white;background:#20272c;font-weight:850;text-decoration:none;box-shadow:0 8px 24px rgba(28,41,50,.18)">Admin importtest</a>
+
+  <script>
+    const searchForm = document.querySelector(".search");
+    const searchInput = document.querySelector(".search input");
+    const tabLinks = document.querySelectorAll(".tabs a");
+    const variants = document.querySelectorAll(".variant");
+
+    searchForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const term = searchInput.value.trim();
+      if (term) {
+        searchInput.value = "";
+        searchInput.placeholder = `Søgeresultat for "${term}" ville vises her`;
+      }
+    });
+
+    tabLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        tabLinks.forEach((item) => item.classList.remove("active"));
+        link.classList.add("active");
+      });
+    });
+
+    variants.forEach((button) => {
+      button.addEventListener("click", () => {
+        variants.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
