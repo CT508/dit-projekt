@@ -11,14 +11,14 @@ function formatPrice(value: number) {
 
 function stockLabel(stockStatus: string) {
   if (stockStatus === "in_stock") {
-    return "På lager";
+    return "In stock";
   }
 
   if (stockStatus === "limited_stock") {
-    return "Få på lager";
+    return "Limited stock";
   }
 
-  return "Ikke på lager";
+  return "Out of stock";
 }
 
 function stockTone(stockStatus: string) {
@@ -46,6 +46,10 @@ function trackedShopUrl(productUrl: string, shopName: string) {
   }
 }
 
+function shopButtonLabel(shopName: string) {
+  return `${shopName} go to shop`;
+}
+
 export default function ProductPage({
   params,
   searchParams
@@ -60,6 +64,7 @@ export default function ProductPage({
 
   const offers = sortOffers(product.offers, searchParams.sort ?? null);
   const lowPrice = floorToTwoDecimals(Math.min(...offers.map((offer) => offer.price + offer.shippingCost)));
+  const galleryImages = product.gallery.slice(0, 3);
 
   const schema = {
     "@context": "https://schema.org",
@@ -107,7 +112,7 @@ export default function ProductPage({
           <select name="sort" defaultValue={searchParams.sort ?? "cheapest"} aria-label="Sort offers">
             <option value="cheapest">Cheapest total price</option>
             <option value="fastest-delivery">Fastest delivery</option>
-            <option value="shop-rating">Shop rating</option>
+            <option value="shop-rating">Shop name</option>
             <option value="newest">Newest offer</option>
           </select>
         </form>
@@ -132,14 +137,13 @@ export default function ProductPage({
                     ) : (
                       <strong>{offer.shopName}</strong>
                     )}
-                    <span className="muted">{offer.shopRating}/5</span>
                   </div>
                 </td>
                 <td>{offer.productTitle}</td>
                 <td><span className={`stock-pill ${stockTone(offer.stockStatus)}`}>{stockLabel(offer.stockStatus)}</span></td>
                 <td>{offer.deliveryTime}</td>
                 <td><strong>{formatPrice(offer.price + offer.shippingCost)} {offer.currency}</strong><br /><span className="muted">shipping {formatPrice(offer.shippingCost)}</span></td>
-                <td><a className="button" href={trackedShopUrl(offer.productUrl, offer.shopName)}>{offer.shopName}</a></td>
+                <td><a className="button" href={trackedShopUrl(offer.productUrl, offer.shopName)}>{shopButtonLabel(offer.shopName)}</a></td>
               </tr>
             ))}
           </tbody>
@@ -147,8 +151,18 @@ export default function ProductPage({
       </section>
 
       <section className="panel seo-panel" style={{ marginTop: 16 }}>
-        <h2>{product.seoTitle}</h2>
-        <p>{product.seoDescription}</p>
+        <div>
+          <h2>{product.seoTitle}</h2>
+          <p>{product.seoDescription}</p>
+        </div>
+        <div className="seo-gallery" aria-label={`${product.productName} image gallery`}>
+          <img className="seo-gallery-main" src={galleryImages[0] ?? product.imageUrl} alt={product.productName} />
+          <div className="seo-gallery-thumbs">
+            {(galleryImages.slice(1, 3).length ? galleryImages.slice(1, 3) : [product.imageUrl]).map((image, index) => (
+              <img key={image} src={image} alt={`${product.productName} image ${index + 2}`} />
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="panel" style={{ marginTop: 16 }}>

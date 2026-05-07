@@ -279,10 +279,45 @@ a {
   color: #b42318;
 }
 
+.seo-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 18px;
+  align-items: start;
+}
+
 .seo-panel p {
   max-width: 760px;
   color: var(--muted);
   line-height: 1.7;
+}
+
+.seo-gallery {
+  display: grid;
+  gap: 10px;
+}
+
+.seo-gallery-main,
+.seo-gallery-thumbs img {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #eef3f5;
+  object-fit: contain;
+}
+
+.seo-gallery-main {
+  height: 210px;
+}
+
+.seo-gallery-thumbs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.seo-gallery-thumbs img {
+  height: 92px;
 }
 
 .form-grid {
@@ -418,6 +453,7 @@ textarea {
   .hero-grid,
   .product-layout,
   .product-grid,
+  .seo-panel,
   .admin-layout,
   .field-grid,
   .gallery-grid {

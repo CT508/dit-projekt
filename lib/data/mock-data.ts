@@ -132,7 +132,7 @@ export const products: MasterProductView[] = [
   {
     ean: "8715946668031",
     slug: "epson-cyan-t44j2-700-ml-blaekpatron",
-    productName: "Epson Cyan T44J2 - 700 ml blaekpatron",
+    productName: "Epson Cyan T44J2 - 700 ml ink cartridge",
     brand: "Epson",
     category: "Printer Ink",
     imageUrl: "https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg",
@@ -143,8 +143,8 @@ export const products: MasterProductView[] = [
     ],
     description:
       "Cyan 700 ml ink cartridge for Epson SureColor P7500 and P9500. SKU C13T44J240.",
-    seoTitle: "Epson Cyan T44J2 700 ml - pris, tilbud og specifikationer",
-    seoDescription: "Sammenlign pris på Epson Cyan T44J2 700 ml blækpatron. Se butik, lagerstatus, levering, fragt og specifikationer for SKU C13T44J240.",
+    seoTitle: "Epson Cyan T44J2 700 ml - prices, offers and specifications",
+    seoDescription: "Compare prices for the Epson Cyan T44J2 700 ml ink cartridge. See shop, stock status, delivery, shipping and specifications for SKU C13T44J240.",
     canonicalUrl: "/p/8715946668031/epson-cyan-t44j2-700-ml-blaekpatron",
     specifications: {
       EAN: "8715946668031",
@@ -160,7 +160,7 @@ export const products: MasterProductView[] = [
         shopName: "Grafisk Handel",
         shopLogoUrl: "https://www.google.com/s2/favicons?domain=www.grafisk-handel.dk&sz=128",
         shopRating: 4.7,
-        productTitle: "Epson Cyan T44J2 - 700 ml blaekpatron",
+        productTitle: "Epson Cyan T44J2 - 700 ml ink cartridge",
         price: 2039.68,
         currency: "DKK",
         shippingCost: 43.75,
@@ -202,7 +202,7 @@ export function sortOffers(offers: OfferView[], sort: string | null) {
   }
 
   if (sort === "shop-rating") {
-    return copy.sort((a, b) => b.shopRating - a.shopRating);
+    return copy.sort((a, b) => a.shopName.localeCompare(b.shopName));
   }
 
   if (sort === "newest") {
