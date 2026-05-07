@@ -5,7 +5,11 @@ export type MasterProductView = {
   brand: string;
   category: string;
   imageUrl: string;
+  gallery: string[];
   description: string;
+  seoTitle: string;
+  seoDescription: string;
+  canonicalUrl: string;
   specifications: Record<string, string>;
   offers: OfferView[];
 };
@@ -33,8 +37,15 @@ export const products: MasterProductView[] = [
     brand: "Aura",
     category: "Headphones",
     imageUrl: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?auto=format&fit=crop&w=900&q=80"
+    ],
     description:
       "Wireless in-ear headphones with active noise cancellation, transparency mode, USB-C charging case, and up to 30 hours of battery life.",
+    seoTitle: "AuraPods Pro 2 - prices, offers and specifications",
+    seoDescription: "Compare AuraPods Pro 2 prices by approved EAN. See offers, stock, delivery, specifications and price data.",
+    canonicalUrl: "/p/5901234123457/aurapods-pro-2-wireless-earbuds",
     specifications: {
       EAN: "5901234123457",
       Type: "Wireless in-ear",
@@ -81,8 +92,14 @@ export const products: MasterProductView[] = [
     brand: "Nord",
     category: "Smartphones",
     imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80"
+    ],
     description:
       "Flagship smartphone with OLED display, fast charging, dual SIM, and 256GB storage.",
+    seoTitle: "Nord X12 256GB - compare prices and offers",
+    seoDescription: "Compare Nord X12 Smartphone 256GB prices from approved EAN-matched shop offers.",
+    canonicalUrl: "/p/4006381333931/nord-x12-smartphone-256gb",
     specifications: {
       EAN: "4006381333931",
       Display: "6.7 inch OLED",
@@ -115,8 +132,16 @@ export const products: MasterProductView[] = [
     brand: "Epson",
     category: "Printer Ink",
     imageUrl: "https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg",
+    gallery: [
+      "https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg",
+      "https://www.grafisk-handel.dk/images/Epson T44J2.webp",
+      "https://www.grafisk-handel.dk/images/Epson T44J1.webp"
+    ],
     description:
       "Cyan 700 ml ink cartridge for Epson SureColor P7500 and P9500. SKU C13T44J240. Approved master product matched only by EAN 8715946668031.",
+    seoTitle: "Epson Cyan T44J2 700 ml - prices, EAN, offers and specs",
+    seoDescription: "Compare prices for Epson Cyan T44J2 700 ml ink cartridge. Approved EAN 8715946668031, SKU C13T44J240, offers, delivery and stock.",
+    canonicalUrl: "/p/8715946668031/epson-cyan-t44j2-700-ml-blaekpatron",
     specifications: {
       EAN: "8715946668031",
       SKU: "C13T44J240",

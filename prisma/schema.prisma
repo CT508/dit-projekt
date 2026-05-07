@@ -100,7 +100,11 @@ model MasterProduct {
   brand          String?
   categoryId     String?
   imageUrl       String?
+  gallery        Json?
   description    String?
+  seoTitle       String?
+  seoDescription String?
+  canonicalUrl   String?
   specifications Json?
   status         ProductStatus  @default(PENDING)
   approvedAt     DateTime?

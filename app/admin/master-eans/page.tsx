@@ -1,20 +1,32 @@
+import Link from "next/link";
+import { AdminNav } from "../AdminNav";
 import { products } from "@/lib/data/mock-data";
 
 export default function AdminMasterEansPage() {
   return (
     <main className="shell">
+      <AdminNav />
       <section className="panel">
-        <h1>Master EAN management</h1>
-        <p className="muted">This table is the single source of truth for product matching.</p>
+        <h1>Master product management</h1>
+        <p className="muted">Create, approve and enrich master EAN records. EAN is the identity; SEO, text and media are admin-managed metadata.</p>
+        <div className="admin-actions">
+          <Link className="button" href="/admin/master-eans/new">Add master product</Link>
+          <Link className="secondary-button" href="/admin/import-logs">Review rejected feed rows</Link>
+        </div>
+      </section>
+      <section className="panel" style={{ marginTop: 16 }}>
         <table className="offer-table">
           <thead>
             <tr>
               <th>EAN</th>
               <th>Product</th>
+              <th>SEO</th>
+              <th>Images</th>
               <th>Brand</th>
               <th>Category</th>
               <th>Status</th>
               <th>Offers</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -22,10 +34,13 @@ export default function AdminMasterEansPage() {
               <tr key={product.ean}>
                 <td><strong>{product.ean}</strong></td>
                 <td>{product.productName}</td>
+                <td>{product.seoTitle ? <span className="badge">SEO ready</span> : <span>Missing</span>}</td>
+                <td>{product.gallery.length}</td>
                 <td>{product.brand}</td>
                 <td>{product.category}</td>
                 <td><span className="badge">APPROVED</span></td>
                 <td>{product.offers.length}</td>
+                <td><Link href={`/admin/master-eans/${product.ean}/edit`}>Edit</Link></td>
               </tr>
             ))}
           </tbody>
@@ -47,4 +62,3 @@ export default function AdminMasterEansPage() {
     </main>
   );
 }
-
