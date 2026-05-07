@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import { findProductByEan, sortOffers } from "@/lib/data/mock-data";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const shoppingCountries = [
   { code: "DK", name: "Denmark" },
   { code: "SE", name: "Sweden" },

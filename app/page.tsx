@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { products } from "@/lib/data/mock-data";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default function HomePage() {
   const activeOffers = products.reduce((total, product) => total + product.offers.length, 0);
 
@@ -37,8 +40,8 @@ export default function HomePage() {
               <img src={product.imageUrl} alt="" />
               <div>
                 <strong>{product.productName}</strong>
-                <p className="muted">{product.brand} · {product.category} · EAN {product.ean}</p>
-<span className="price">from {Math.min(...product.offers.map((offer) => offer.price))} DKK</span>
+                <p className="muted">{product.brand} | {product.category} | EAN {product.ean}</p>
+                <span className="price">from {Math.min(...product.offers.map((offer) => offer.price))} DKK</span>
               </div>
             </Link>
           ))}
@@ -47,4 +50,3 @@ export default function HomePage() {
     </main>
   );
 }
-

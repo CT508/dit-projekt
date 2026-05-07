@@ -4,7 +4,10 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "PrisPuls EAN Compare",
-  description: "EAN-first price comparison SaaS platform."
+  description: "EAN-first price comparison SaaS platform.",
+  other: {
+    "x-prispuls-build": "v8-country-no-shipping"
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -32,4 +35,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
