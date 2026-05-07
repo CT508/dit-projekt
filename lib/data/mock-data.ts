@@ -22,11 +22,11 @@ export type OfferView = {
   productTitle: string;
   price: number;
   currency: string;
-  shippingCost: number;
   productUrl: string;
   stockStatus: "in_stock" | "limited_stock" | "out_of_stock";
   deliveryTime: string;
   deliveryDays: number;
+  shipsToCountries: string[];
   newestAt: string;
 };
 
@@ -64,11 +64,11 @@ export const products: MasterProductView[] = [
         productTitle: "AuraPods Pro 2 Wireless Earbuds, White, USB-C Case",
         price: 899,
         currency: "DKK",
-        shippingCost: 0,
         productUrl: "https://shop.example.com/aurapods-pro-2",
         stockStatus: "in_stock",
         deliveryTime: "1-2 days",
         deliveryDays: 1,
+        shipsToCountries: ["DK", "SE", "DE"],
         newestAt: "2026-05-06T09:20:00Z"
       },
       {
@@ -79,11 +79,11 @@ export const products: MasterProductView[] = [
         productTitle: "AuraPods Pro 2 ANC Headphones",
         price: 929,
         currency: "DKK",
-        shippingCost: 0,
         productUrl: "https://shop.example.com/aura-anc",
         stockStatus: "in_stock",
         deliveryTime: "2-3 days",
         deliveryDays: 2,
+        shipsToCountries: ["DK", "DE"],
         newestAt: "2026-05-06T08:10:00Z"
       }
     ]
@@ -120,11 +120,11 @@ export const products: MasterProductView[] = [
         productTitle: "Nord X12 256GB Smartphone, Black",
         price: 4799,
         currency: "DKK",
-        shippingCost: 29,
         productUrl: "https://shop.example.com/nord-x12",
         stockStatus: "limited_stock",
         deliveryTime: "2-4 days",
         deliveryDays: 2,
+        shipsToCountries: ["DK", "SE", "DE", "PL"],
         newestAt: "2026-05-06T10:00:00Z"
       }
     ]
@@ -144,7 +144,7 @@ export const products: MasterProductView[] = [
     description:
       "Cyan 700 ml ink cartridge for Epson SureColor P7500 and P9500. SKU C13T44J240.",
     seoTitle: "Epson Cyan T44J2 700 ml - prices, offers and specifications",
-    seoDescription: "Compare prices for the Epson Cyan T44J2 700 ml ink cartridge. See shop, stock status, delivery, shipping and specifications for SKU C13T44J240.",
+    seoDescription: "Compare prices for the Epson Cyan T44J2 700 ml ink cartridge. See shop, stock status, delivery and specifications for SKU C13T44J240.",
     canonicalUrl: "/p/8715946668031/epson-cyan-t44j2-700-ml-blaekpatron",
     specifications: {
       EAN: "8715946668031",
@@ -163,12 +163,42 @@ export const products: MasterProductView[] = [
         productTitle: "Epson Cyan T44J2 - 700 ml ink cartridge",
         price: 2039.68,
         currency: "DKK",
-        shippingCost: 43.75,
         productUrl: "https://www.grafisk-handel.dk/shop/epson-cyan-t44j2-9732p.html",
         stockStatus: "in_stock",
         deliveryTime: "3 days",
         deliveryDays: 3,
+        shipsToCountries: ["DK", "SE"],
         newestAt: "2026-05-06T10:30:00Z"
+      },
+      {
+        id: "offer_europrint_8715946668031",
+        shopName: "EuroPrint Supplies",
+        shopLogoUrl: null,
+        shopRating: 4.5,
+        productTitle: "Epson Cyan T44J2 700 ml ink cartridge",
+        price: 1995,
+        currency: "DKK",
+        productUrl: "https://shop.example.com/epson-t44j2",
+        stockStatus: "limited_stock",
+        deliveryTime: "4-6 days",
+        deliveryDays: 4,
+        shipsToCountries: ["DK", "DE", "NL"],
+        newestAt: "2026-05-05T12:00:00Z"
+      },
+      {
+        id: "offer_inkmarket_8715946668031",
+        shopName: "InkMarket Europe",
+        shopLogoUrl: null,
+        shopRating: 4.4,
+        productTitle: "Epson T44J2 Cyan 700 ml",
+        price: 1925,
+        currency: "DKK",
+        productUrl: "https://shop.example.com/inkmarket/epson-t44j2",
+        stockStatus: "in_stock",
+        deliveryTime: "5-8 days",
+        deliveryDays: 5,
+        shipsToCountries: ["DE", "PL", "NL"],
+        newestAt: "2026-05-04T08:45:00Z"
       }
     ]
   }
@@ -209,5 +239,5 @@ export function sortOffers(offers: OfferView[], sort: string | null) {
     return copy.sort((a, b) => Date.parse(b.newestAt) - Date.parse(a.newestAt));
   }
 
-  return copy.sort((a, b) => (a.price + a.shippingCost) - (b.price + b.shippingCost));
+  return copy.sort((a, b) => a.price - b.price);
 }

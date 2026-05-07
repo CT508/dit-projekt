@@ -200,6 +200,25 @@ a {
   font-size: 1.35rem;
 }
 
+.country-selector {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: end;
+  margin: 18px 0 10px;
+}
+
+.country-selector label {
+  grid-column: 1 / -1;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.country-selector select {
+  min-height: 42px;
+}
+
 .product-layout {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
@@ -454,6 +473,7 @@ textarea {
   .product-layout,
   .product-grid,
   .seo-panel,
+  .country-selector,
   .admin-layout,
   .field-grid,
   .gallery-grid {

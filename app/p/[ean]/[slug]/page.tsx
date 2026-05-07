@@ -1,6 +1,14 @@
 import { notFound } from "next/navigation";
 import { findProductByEan, sortOffers } from "@/lib/data/mock-data";
 
+const shoppingCountries = [
+  { code: "DK", name: "Denmark" },
+  { code: "SE", name: "Sweden" },
+  { code: "DE", name: "Germany" },
+  { code: "NL", name: "Netherlands" },
+  { code: "PL", name: "Poland" }
+];
+
 function floorToTwoDecimals(value: number) {
   return Math.floor(value * 100) / 100;
 }
@@ -46,25 +54,29 @@ function trackedShopUrl(productUrl: string, shopName: string) {
   }
 }
 
-function shopButtonLabel(shopName: string) {
-  return `${shopName} go to shop`;
-}
-
 export default function ProductPage({
   params,
   searchParams
 }: {
   params: { ean: string; slug: string };
-  searchParams: { sort?: string };
+  searchParams: { sort?: string; country?: string };
 }) {
   const product = findProductByEan(params.ean);
   if (!product) {
     notFound();
   }
 
-  const offers = sortOffers(product.offers, searchParams.sort ?? null);
-  const lowPrice = floorToTwoDecimals(Math.min(...offers.map((offer) => offer.price + offer.shippingCost)));
+  const selectedCountry = shoppingCountries.some((country) => country.code === searchParams.country) ? searchParams.country! : "DK";
+  const selectedCountryName = shoppingCountries.find((country) => country.code === selectedCountry)?.name ?? "Denmark";
+  const deliverableOffers = product.offers.filter((offer) => offer.shipsToCountries.includes(selectedCountry));
+  const offers = searchParams.sort === "cheapest" || !searchParams.sort
+    ? [...deliverableOffers].sort((a, b) => a.price - b.price)
+    : sortOffers(deliverableOffers, searchParams.sort ?? null);
+  const lowPrice = offers.length > 0
+    ? floorToTwoDecimals(Math.min(...offers.map((offer) => offer.price)))
+    : null;
   const galleryImages = product.gallery.slice(0, 3);
+  const thumbnailImages = galleryImages.slice(1, 3);
 
   const schema = {
     "@context": "https://schema.org",
@@ -77,7 +89,7 @@ export default function ProductPage({
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "DKK",
-      lowPrice,
+      lowPrice: lowPrice ?? undefined,
       offerCount: offers.length,
       offers: offers.map((offer) => ({
         "@type": "Offer",
@@ -102,13 +114,27 @@ export default function ProductPage({
           <p className="muted">{product.description}</p>
           <p><strong>EAN:</strong> {product.ean}</p>
           <p><strong>Brand:</strong> {product.brand}</p>
-          <p className="price">Lowest price: {formatPrice(lowPrice)} DKK</p>
+          <form className="country-selector">
+            <label htmlFor="country">Where are you shopping from?</label>
+            <select id="country" name="country" defaultValue={selectedCountry}>
+              {shoppingCountries.map((country) => (
+                <option key={country.code} value={country.code}>{country.name}</option>
+              ))}
+            </select>
+            <input type="hidden" name="sort" value={searchParams.sort ?? "cheapest"} />
+            <button className="secondary-button" type="submit">Update prices</button>
+          </form>
+          <p className="price">
+            {lowPrice === null ? `No shops deliver to ${selectedCountryName}` : `Lowest price to ${selectedCountryName}: ${formatPrice(lowPrice)} DKK`}
+          </p>
+          <p className="muted">Only shops that deliver to {selectedCountryName} are shown.</p>
         </div>
       </section>
 
       <section className="panel" style={{ marginTop: 16 }}>
         <form className="form-grid" style={{ gridTemplateColumns: "1fr 220px", marginBottom: 12 }}>
           <h2>Price offers</h2>
+          <input type="hidden" name="country" value={selectedCountry} />
           <select name="sort" defaultValue={searchParams.sort ?? "cheapest"} aria-label="Sort offers">
             <option value="cheapest">Cheapest total price</option>
             <option value="fastest-delivery">Fastest delivery</option>
@@ -128,6 +154,11 @@ export default function ProductPage({
             </tr>
           </thead>
           <tbody>
+            {offers.length === 0 ? (
+              <tr>
+                <td colSpan={6}>No shops in this comparison currently deliver to {selectedCountryName}.</td>
+              </tr>
+            ) : null}
             {offers.map((offer) => (
               <tr key={offer.id}>
                 <td>
@@ -142,8 +173,8 @@ export default function ProductPage({
                 <td>{offer.productTitle}</td>
                 <td><span className={`stock-pill ${stockTone(offer.stockStatus)}`}>{stockLabel(offer.stockStatus)}</span></td>
                 <td>{offer.deliveryTime}</td>
-                <td><strong>{formatPrice(offer.price + offer.shippingCost)} {offer.currency}</strong><br /><span className="muted">shipping {formatPrice(offer.shippingCost)}</span></td>
-                <td><a className="button" href={trackedShopUrl(offer.productUrl, offer.shopName)}>{shopButtonLabel(offer.shopName)}</a></td>
+                <td><strong>{formatPrice(offer.price)} {offer.currency}</strong></td>
+                <td><a className="button" href={trackedShopUrl(offer.productUrl, offer.shopName)}>Go to shop</a></td>
               </tr>
             ))}
           </tbody>
@@ -157,11 +188,13 @@ export default function ProductPage({
         </div>
         <div className="seo-gallery" aria-label={`${product.productName} image gallery`}>
           <img className="seo-gallery-main" src={galleryImages[0] ?? product.imageUrl} alt={product.productName} />
-          <div className="seo-gallery-thumbs">
-            {(galleryImages.slice(1, 3).length ? galleryImages.slice(1, 3) : [product.imageUrl]).map((image, index) => (
-              <img key={image} src={image} alt={`${product.productName} image ${index + 2}`} />
-            ))}
-          </div>
+          {thumbnailImages.length > 0 ? (
+            <div className="seo-gallery-thumbs">
+              {thumbnailImages.map((image, index) => (
+                <img key={image} src={image} alt={`${product.productName} image ${index + 2}`} />
+              ))}
+            </div>
+          ) : null}
         </div>
       </section>
 
