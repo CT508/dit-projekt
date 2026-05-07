@@ -224,6 +224,21 @@ a {
   font-size: .88rem;
 }
 
+.shop-identity {
+  display: grid;
+  gap: 6px;
+  align-items: start;
+  min-width: 120px;
+}
+
+.shop-logo {
+  width: 104px;
+  height: 34px;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -234,6 +249,40 @@ a {
   color: var(--green);
   font-weight: 850;
   font-size: .82rem;
+}
+
+.stock-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.stock-pill::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.stock-ok {
+  color: var(--green);
+}
+
+.stock-limited {
+  color: #b7791f;
+}
+
+.stock-out {
+  color: #b42318;
+}
+
+.seo-panel p {
+  max-width: 760px;
+  color: var(--muted);
+  line-height: 1.7;
 }
 
 .form-grid {

@@ -17,6 +17,7 @@ export type MasterProductView = {
 export type OfferView = {
   id: string;
   shopName: string;
+  shopLogoUrl?: string | null;
   shopRating: number;
   productTitle: string;
   price: number;
@@ -58,6 +59,7 @@ export const products: MasterProductView[] = [
       {
         id: "offer_soundstreet_5901234123457",
         shopName: "SoundStreet",
+        shopLogoUrl: null,
         shopRating: 4.8,
         productTitle: "AuraPods Pro 2 Wireless Earbuds, White, USB-C Case",
         price: 899,
@@ -72,6 +74,7 @@ export const products: MasterProductView[] = [
       {
         id: "offer_nordictech_5901234123457",
         shopName: "NordicTech",
+        shopLogoUrl: null,
         shopRating: 4.6,
         productTitle: "AuraPods Pro 2 ANC Headphones",
         price: 929,
@@ -112,6 +115,7 @@ export const products: MasterProductView[] = [
       {
         id: "offer_mobilehub_4006381333931",
         shopName: "MobileHub",
+        shopLogoUrl: null,
         shopRating: 4.7,
         productTitle: "Nord X12 256GB Smartphone, Black",
         price: 4799,
@@ -138,9 +142,9 @@ export const products: MasterProductView[] = [
       "https://www.grafisk-handel.dk/images/Epson T44J1.webp"
     ],
     description:
-      "Cyan 700 ml ink cartridge for Epson SureColor P7500 and P9500. SKU C13T44J240. Approved master product matched only by EAN 8715946668031.",
-    seoTitle: "Epson Cyan T44J2 700 ml - prices, EAN, offers and specs",
-    seoDescription: "Compare prices for Epson Cyan T44J2 700 ml ink cartridge. Approved EAN 8715946668031, SKU C13T44J240, offers, delivery and stock.",
+      "Cyan 700 ml ink cartridge for Epson SureColor P7500 and P9500. SKU C13T44J240.",
+    seoTitle: "Epson Cyan T44J2 700 ml - pris, tilbud og specifikationer",
+    seoDescription: "Sammenlign pris på Epson Cyan T44J2 700 ml blækpatron. Se butik, lagerstatus, levering, fragt og specifikationer for SKU C13T44J240.",
     canonicalUrl: "/p/8715946668031/epson-cyan-t44j2-700-ml-blaekpatron",
     specifications: {
       EAN: "8715946668031",
@@ -154,6 +158,7 @@ export const products: MasterProductView[] = [
       {
         id: "offer_grafiskhandel_8715946668031",
         shopName: "Grafisk Handel",
+        shopLogoUrl: "https://www.google.com/s2/favicons?domain=www.grafisk-handel.dk&sz=128",
         shopRating: 4.7,
         productTitle: "Epson Cyan T44J2 - 700 ml blaekpatron",
         price: 2039.68,
