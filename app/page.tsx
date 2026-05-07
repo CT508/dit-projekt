@@ -38,7 +38,7 @@ export default function HomePage() {
               <div>
                 <strong>{product.productName}</strong>
                 <p className="muted">{product.brand} · {product.category} · EAN {product.ean}</p>
-                <span className="price">from {Math.min(...product.offers.map((offer) => offer.price + offer.shippingCost))} DKK</span>
+<span className="price">from {Math.min(...product.offers.map((offer) => offer.price))} DKK</span>
               </div>
             </Link>
           ))}
