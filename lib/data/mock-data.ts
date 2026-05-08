@@ -137,9 +137,7 @@ export const products: MasterProductView[] = [
     category: "Printer Ink",
     imageUrl: "https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg",
     gallery: [
-      "https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg",
-      "https://www.grafisk-handel.dk/images/Epson T44J2.webp",
-      "https://www.grafisk-handel.dk/images/Epson T44J1.webp"
+      "https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg"
     ],
     description:
       "Cyan 700 ml ink cartridge for Epson SureColor P7500 and P9500. SKU C13T44J240.",

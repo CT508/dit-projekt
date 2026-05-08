@@ -5,11 +5,33 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 const shoppingCountries = [
+  { code: "AT", name: "Austria" },
+  { code: "BE", name: "Belgium" },
+  { code: "BG", name: "Bulgaria" },
+  { code: "HR", name: "Croatia" },
+  { code: "CY", name: "Cyprus" },
+  { code: "CZ", name: "Czechia" },
   { code: "DK", name: "Denmark" },
-  { code: "SE", name: "Sweden" },
+  { code: "EE", name: "Estonia" },
+  { code: "FI", name: "Finland" },
+  { code: "FR", name: "France" },
   { code: "DE", name: "Germany" },
+  { code: "GR", name: "Greece" },
+  { code: "HU", name: "Hungary" },
+  { code: "IE", name: "Ireland" },
+  { code: "IT", name: "Italy" },
+  { code: "LV", name: "Latvia" },
+  { code: "LT", name: "Lithuania" },
+  { code: "LU", name: "Luxembourg" },
+  { code: "MT", name: "Malta" },
   { code: "NL", name: "Netherlands" },
-  { code: "PL", name: "Poland" }
+  { code: "PL", name: "Poland" },
+  { code: "PT", name: "Portugal" },
+  { code: "RO", name: "Romania" },
+  { code: "SK", name: "Slovakia" },
+  { code: "SI", name: "Slovenia" },
+  { code: "ES", name: "Spain" },
+  { code: "SE", name: "Sweden" }
 ];
 
 function floorToTwoDecimals(value: number) {
@@ -136,7 +158,7 @@ export default function ProductPage({
 
       <section className="panel" style={{ marginTop: 16 }}>
         <form className="form-grid" style={{ gridTemplateColumns: "1fr 220px", marginBottom: 12 }}>
-          <h2>Price offers</h2>
+          <h2>Best price for {product.productName}</h2>
           <input type="hidden" name="country" value={selectedCountry} />
           <select name="sort" defaultValue={searchParams.sort ?? "cheapest"} aria-label="Sort offers">
             <option value="cheapest">Cheapest total price</option>
