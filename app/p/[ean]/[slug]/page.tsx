@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { findProductByEan, sortOffers } from "@/lib/data/mock-data";
+import { calculateVatPrices, getCountryName } from "@/lib/vat/eu-vat";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -95,10 +96,14 @@ export default function ProductPage({
   const selectedCountryName = shoppingCountries.find((country) => country.code === selectedCountry)?.name ?? "Denmark";
   const deliverableOffers = product.offers.filter((offer) => offer.shipsToCountries.includes(selectedCountry));
   const offers = searchParams.sort === "cheapest" || !searchParams.sort
-    ? [...deliverableOffers].sort((a, b) => a.price - b.price)
+    ? [...deliverableOffers].sort((a, b) => {
+      const aVat = calculateVatPrices(a.price, a.shopCountryCode, a.pricesIncludeVat);
+      const bVat = calculateVatPrices(b.price, b.shopCountryCode, b.pricesIncludeVat);
+      return aVat.priceExVat - bVat.priceExVat;
+    })
     : sortOffers(deliverableOffers, searchParams.sort ?? null);
   const lowPrice = offers.length > 0
-    ? floorToTwoDecimals(Math.min(...offers.map((offer) => offer.price)))
+    ? floorToTwoDecimals(Math.min(...offers.map((offer) => calculateVatPrices(offer.price, offer.shopCountryCode, offer.pricesIncludeVat).priceExVat)))
     : null;
   const galleryImages = product.gallery.slice(0, 3);
   const thumbnailImages = galleryImages.slice(1, 3);
@@ -118,7 +123,7 @@ export default function ProductPage({
       offerCount: offers.length,
       offers: offers.map((offer) => ({
         "@type": "Offer",
-        price: offer.price,
+        price: calculateVatPrices(offer.price, offer.shopCountryCode, offer.pricesIncludeVat).priceExVat,
         priceCurrency: offer.currency,
         availability: offer.stockStatus === "in_stock" ? "https://schema.org/InStock" : "https://schema.org/LimitedAvailability",
         url: offer.productUrl,
@@ -150,7 +155,7 @@ export default function ProductPage({
             <button className="secondary-button" type="submit">Update prices</button>
           </form>
           <p className="price">
-            {lowPrice === null ? `No shops deliver to ${selectedCountryName}` : `Lowest price to ${selectedCountryName}: ${formatPrice(lowPrice)} DKK`}
+            {lowPrice === null ? `No shops deliver to ${selectedCountryName}` : `Lowest price to ${selectedCountryName}: ${formatPrice(lowPrice)} DKK excl. VAT`}
           </p>
           <p className="muted">Only shops that deliver to {selectedCountryName} are shown.</p>
         </div>
@@ -161,7 +166,7 @@ export default function ProductPage({
           <h2>Best price for {product.productName}</h2>
           <input type="hidden" name="country" value={selectedCountry} />
           <select name="sort" defaultValue={searchParams.sort ?? "cheapest"} aria-label="Sort offers">
-            <option value="cheapest">Cheapest total price</option>
+            <option value="cheapest">Cheapest price excl. VAT</option>
             <option value="fastest-delivery">Fastest delivery</option>
             <option value="shop-rating">Shop name</option>
             <option value="newest">Newest offer</option>
@@ -174,14 +179,16 @@ export default function ProductPage({
               <th>Feed title</th>
               <th>Stock</th>
               <th>Delivery</th>
-              <th>Price</th>
+              <th>VAT basis</th>
+              <th>Price excl. VAT</th>
+              <th>Price incl. VAT</th>
               <th aria-label="Shop link"></th>
             </tr>
           </thead>
           <tbody>
             {offers.length === 0 ? (
               <tr>
-                <td colSpan={6}>No shops in this comparison currently deliver to {selectedCountryName}.</td>
+                <td colSpan={8}>No shops in this comparison currently deliver to {selectedCountryName}.</td>
               </tr>
             ) : null}
             {offers.map((offer) => (
@@ -198,7 +205,11 @@ export default function ProductPage({
                 <td>{offer.productTitle}</td>
                 <td><span className={`stock-pill ${stockTone(offer.stockStatus)}`}>{stockLabel(offer.stockStatus)}</span></td>
                 <td>{offer.deliveryTime}</td>
-                <td><strong>{formatPrice(offer.price)} {offer.currency}</strong></td>
+                <td>
+                  {getCountryName(offer.shopCountryCode)} VAT {(calculateVatPrices(offer.price, offer.shopCountryCode, offer.pricesIncludeVat).vatRate * 100).toLocaleString("en", { maximumFractionDigits: 1 })}%
+                </td>
+                <td><strong>{formatPrice(calculateVatPrices(offer.price, offer.shopCountryCode, offer.pricesIncludeVat).priceExVat)} {offer.currency}</strong></td>
+                <td>{formatPrice(calculateVatPrices(offer.price, offer.shopCountryCode, offer.pricesIncludeVat).priceIncVat)} {offer.currency}</td>
                 <td><a className="button" href={trackedShopUrl(offer.productUrl, offer.shopName)}>Go to shop</a></td>
               </tr>
             ))}

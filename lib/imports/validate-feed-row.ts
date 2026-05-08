@@ -91,11 +91,6 @@ export function validateFeedRow(
     return reject(eanResult.normalizedEan, "MISSING_DELIVERY_TIME", "Delivery time is required.");
   }
 
-  const shippingCost = parseMoney(row.shipping_cost);
-  if (shippingCost === null) {
-    return reject(eanResult.normalizedEan, "INVALID_SHIPPING_COST", "Shipping cost must be zero or a positive number.");
-  }
-
   seenEansInImport.add(eanResult.normalizedEan);
 
   return {
@@ -110,7 +105,7 @@ export function validateFeedRow(
       image_url: imageUrl,
       stock_status: stockStatus,
       delivery_time: deliveryTime,
-      shipping_cost: shippingCost
+      shipping_cost: 0
     }
   };
 }
@@ -122,4 +117,3 @@ function reject(normalizedEan: string, code: string, message: string): FeedValid
     error: { code, message }
   };
 }
-

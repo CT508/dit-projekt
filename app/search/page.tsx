@@ -27,7 +27,7 @@ export default function SearchPage({ searchParams }: { searchParams: { q?: strin
             <img src={product.imageUrl} alt="" />
             <div>
               <strong>{product.productName}</strong>
-              <p className="muted">{product.category} · EAN {product.ean}</p>
+              <p className="muted">{product.category} | EAN {product.ean}</p>
               <span className="price">{product.offers.length} offers</span>
             </div>
           </Link>
@@ -36,4 +36,3 @@ export default function SearchPage({ searchParams }: { searchParams: { q?: strin
     </main>
   );
 }
-

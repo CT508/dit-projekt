@@ -21,6 +21,8 @@ export type OfferView = {
   shopRating: number;
   productTitle: string;
   price: number;
+  pricesIncludeVat: boolean;
+  shopCountryCode: string;
   currency: string;
   productUrl: string;
   stockStatus: "in_stock" | "limited_stock" | "out_of_stock";
@@ -63,6 +65,8 @@ export const products: MasterProductView[] = [
         shopRating: 4.8,
         productTitle: "AuraPods Pro 2 Wireless Earbuds, White, USB-C Case",
         price: 899,
+        pricesIncludeVat: true,
+        shopCountryCode: "DK",
         currency: "DKK",
         productUrl: "https://shop.example.com/aurapods-pro-2",
         stockStatus: "in_stock",
@@ -78,6 +82,8 @@ export const products: MasterProductView[] = [
         shopRating: 4.6,
         productTitle: "AuraPods Pro 2 ANC Headphones",
         price: 929,
+        pricesIncludeVat: true,
+        shopCountryCode: "DE",
         currency: "DKK",
         productUrl: "https://shop.example.com/aura-anc",
         stockStatus: "in_stock",
@@ -119,6 +125,8 @@ export const products: MasterProductView[] = [
         shopRating: 4.7,
         productTitle: "Nord X12 256GB Smartphone, Black",
         price: 4799,
+        pricesIncludeVat: true,
+        shopCountryCode: "PL",
         currency: "DKK",
         productUrl: "https://shop.example.com/nord-x12",
         stockStatus: "limited_stock",
@@ -160,6 +168,8 @@ export const products: MasterProductView[] = [
         shopRating: 4.7,
         productTitle: "Epson Cyan T44J2 - 700 ml ink cartridge",
         price: 2039.68,
+        pricesIncludeVat: true,
+        shopCountryCode: "DK",
         currency: "DKK",
         productUrl: "https://www.grafisk-handel.dk/shop/epson-cyan-t44j2-9732p.html",
         stockStatus: "in_stock",
@@ -175,6 +185,8 @@ export const products: MasterProductView[] = [
         shopRating: 4.5,
         productTitle: "Epson Cyan T44J2 700 ml ink cartridge",
         price: 1995,
+        pricesIncludeVat: true,
+        shopCountryCode: "DE",
         currency: "DKK",
         productUrl: "https://shop.example.com/epson-t44j2",
         stockStatus: "limited_stock",
@@ -190,6 +202,8 @@ export const products: MasterProductView[] = [
         shopRating: 4.4,
         productTitle: "Epson T44J2 Cyan 700 ml",
         price: 1925,
+        pricesIncludeVat: true,
+        shopCountryCode: "NL",
         currency: "DKK",
         productUrl: "https://shop.example.com/inkmarket/epson-t44j2",
         stockStatus: "in_stock",

@@ -9,7 +9,10 @@ export default function ShopDashboardPage() {
       <section className="panel">
         <h1>Shop dashboard</h1>
         <p className="muted">Shop owners manage profile data, imports, accepted offers, and rejected rows.</p>
-        <Link className="button" href="/shop/feed-upload">Upload feed</Link>
+        <div className="admin-actions">
+          <Link className="button" href="/shop/feed-upload">Upload XML feed</Link>
+          <Link className="secondary-button" href="/shop/profile">Edit shop profile</Link>
+        </div>
       </section>
       <section className="stat-grid" style={{ marginTop: 16 }}>
         <div className="stat"><strong>{activeOffers}</strong><span>accepted offers</span></div>
@@ -23,11 +26,10 @@ export default function ShopDashboardPage() {
             <tr><th>Import</th><th>Status</th><th>Accepted</th><th>Rejected</th><th>Main rejection reason</th></tr>
           </thead>
           <tbody>
-            <tr><td>CSV upload</td><td>PARTIAL</td><td>42</td><td>3</td><td>EAN_NOT_APPROVED</td></tr>
+            <tr><td>XML upload</td><td>PARTIAL</td><td>42</td><td>3</td><td>EAN_NOT_APPROVED</td></tr>
           </tbody>
         </table>
       </section>
     </main>
   );
 }
-

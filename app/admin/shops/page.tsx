@@ -19,7 +19,7 @@ export default function AdminShopsPage() {
           </thead>
           <tbody>
             <tr><td>Grafisk Handel</td><td><span className="badge">ACTIVE</span></td><td>4.7</td><td>1</td><td>Google XML URL</td><td>CPA 3%</td><td>Edit · Imports · Suspend</td></tr>
-            <tr><td>SoundStreet</td><td><span className="badge">ACTIVE</span></td><td>4.8</td><td>1240</td><td>Daily CSV</td><td>CPC 1.80 DKK</td><td>Edit · Imports · Suspend</td></tr>
+            <tr><td>SoundStreet</td><td><span className="badge">ACTIVE</span></td><td>4.8</td><td>1240</td><td>Daily XML</td><td>CPC 1.80 DKK</td><td>Edit · Imports · Suspend</td></tr>
             <tr><td>NordicTech</td><td><span className="badge">ACTIVE</span></td><td>4.6</td><td>980</td><td>XML URL</td><td>CPC 2.00 DKK</td><td>Edit · Imports · Suspend</td></tr>
           </tbody>
         </table>

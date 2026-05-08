@@ -32,7 +32,7 @@ export default function NewMasterProductPage() {
 
           <h2>Images</h2>
           <label><span>Main image URL</span><input defaultValue="https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg" /></label>
-          <label><span>Gallery image URLs, one per line</span><textarea defaultValue={"https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg\nhttps://www.grafisk-handel.dk/images/Epson T44J2.webp"} /></label>
+          <label><span>Gallery image URLs, one per line</span><textarea defaultValue={"https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg"} /></label>
 
           <div className="admin-actions">
             <button className="button" type="button">Save draft</button>
@@ -53,4 +53,3 @@ export default function NewMasterProductPage() {
     </main>
   );
 }
-

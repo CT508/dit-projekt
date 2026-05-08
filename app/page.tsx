@@ -1,11 +1,17 @@
 import Link from "next/link";
 import { products } from "@/lib/data/mock-data";
+import { calculateVatPrices } from "@/lib/vat/eu-vat";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default function HomePage() {
   const activeOffers = products.reduce((total, product) => total + product.offers.length, 0);
+  const lowestExVatPrice = (offers: typeof products[number]["offers"]) => {
+    return Math.min(...offers.map((offer) => {
+      return calculateVatPrices(offer.price, offer.shopCountryCode, offer.pricesIncludeVat).priceExVat;
+    }));
+  };
 
   return (
     <main className="shell">
@@ -41,7 +47,7 @@ export default function HomePage() {
               <div>
                 <strong>{product.productName}</strong>
                 <p className="muted">{product.brand} | {product.category} | EAN {product.ean}</p>
-                <span className="price">from {Math.min(...product.offers.map((offer) => offer.price))} DKK</span>
+                <span className="price">from {lowestExVatPrice(product.offers).toFixed(2)} DKK excl. VAT</span>
               </div>
             </Link>
           ))}

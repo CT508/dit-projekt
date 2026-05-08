@@ -13,8 +13,7 @@ export function parseXmlFeed(xml: string): FeedRow[] {
       product_url: readTag(content, "product_url"),
       image_url: readTag(content, "image_url"),
       stock_status: readTag(content, "stock_status"),
-      delivery_time: readTag(content, "delivery_time"),
-      shipping_cost: readTag(content, "shipping_cost")
+      delivery_time: readTag(content, "delivery_time")
     };
   });
 }
@@ -32,4 +31,3 @@ function decodeXml(value: string): string {
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'");
 }
-

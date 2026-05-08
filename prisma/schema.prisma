@@ -41,9 +41,7 @@ enum ImportStatus {
 }
 
 enum FeedType {
-  CSV
   XML
-  API
 }
 
 model User {
@@ -64,8 +62,13 @@ model Shop {
   slug            String          @unique
   status          ShopStatus      @default(PENDING)
   websiteUrl      String
+  countryCode     String          @default("DK")
   logoUrl         String?
+  contactEmail    String?
+  contactPhone    String?
+  description     String?
   supportEmail    String?
+  pricesIncludeVat Boolean        @default(true)
   rating          Decimal?        @db.Decimal(3, 2)
   defaultCurrency String          @default("DKK")
   createdAt       DateTime        @default(now())
@@ -133,7 +136,7 @@ model ShopOffer {
   stockStatus     String
   deliveryTime    String
   deliveryDays    Int?
-  shippingCost    Decimal        @db.Decimal(12, 2)
+  shippingCost    Decimal        @default(0) @db.Decimal(12, 2)
   status          OfferStatus    @default(ACTIVE)
   sourceImportId  String?
   lastSeenAt      DateTime       @default(now())
@@ -197,7 +200,7 @@ model PriceHistory {
   ean             String
   price           Decimal       @db.Decimal(12, 2)
   currency        String
-  shippingCost    Decimal       @db.Decimal(12, 2)
+  shippingCost    Decimal       @default(0) @db.Decimal(12, 2)
   recordedAt      DateTime      @default(now())
 
   masterProduct   MasterProduct @relation(fields: [masterProductId], references: [id])

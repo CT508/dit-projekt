@@ -4,7 +4,18 @@ import { parseXmlFeed } from "@/lib/imports/parse-xml";
 import { validateImportRows } from "@/lib/imports/import-feed";
 
 export async function POST(request: NextRequest) {
-  const xml = await request.text();
+  const contentType = request.headers.get("content-type") ?? "";
+  let pricesIncludeVat = true;
+  let xml = "";
+
+  if (contentType.includes("application/x-www-form-urlencoded") || contentType.includes("multipart/form-data")) {
+    const formData = await request.formData();
+    pricesIncludeVat = formData.get("pricesIncludeVat") === "on";
+    xml = String(formData.get("xml") ?? "");
+  } else {
+    xml = await request.text();
+  }
+
   const rows = parseXmlFeed(xml);
 
   const report = await validateImportRows(rows, async (ean) => {
@@ -17,7 +28,7 @@ export async function POST(request: NextRequest) {
     totalRows: report.totalRows,
     acceptedRows: report.acceptedRows.length,
     rejectedRows: report.rejectedRows.length,
+    pricesIncludeVat,
     errors: report.rejectedRows
   });
 }
-

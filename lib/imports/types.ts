@@ -39,4 +39,3 @@ export type FeedValidationResult =
       normalizedEan: string;
       error: FeedValidationError;
     };
-
