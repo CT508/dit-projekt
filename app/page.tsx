@@ -1,9 +1,19 @@
 import Link from "next/link";
 import { products } from "@/lib/data/mock-data";
 import { calculateVatPrices } from "@/lib/vat/eu-vat";
+import { LiveSearch } from "./components/LiveSearch";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+const searchProducts = products.map(({ ean, slug, productName, brand, category, imageUrl }) => ({
+  ean,
+  slug,
+  productName,
+  brand,
+  category,
+  imageUrl
+}));
 
 export default function HomePage() {
   const activeOffers = products.reduce((total, product) => total + product.offers.length, 0);
@@ -23,10 +33,7 @@ export default function HomePage() {
             A SaaS price comparison platform for public shoppers, shop owners, and admins.
             Product identity is controlled by the master EAN database.
           </p>
-          <form className="search-form" action="/search">
-            <input name="q" placeholder="Try 5901234123457 or headphones" />
-            <button type="submit">Find products</button>
-          </form>
+          <LiveSearch products={searchProducts} />
         </div>
         <div className="panel">
           <h2>Platform snapshot</h2>

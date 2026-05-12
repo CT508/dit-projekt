@@ -1,6 +1,17 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LiveSearch } from "./components/LiveSearch";
+import { products } from "@/lib/data/mock-data";
+
+const searchProducts = products.map(({ ean, slug, productName, brand, category, imageUrl }) => ({
+  ean,
+  slug,
+  productName,
+  brand,
+  category,
+  imageUrl
+}));
 
 export const metadata: Metadata = {
   title: "PrisPuls EAN Compare",
@@ -20,10 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="brand-mark">PP</span>
               PrisPuls
             </Link>
-            <form className="search-form" action="/search">
-              <input name="q" placeholder="Search product, EAN, brand or category" />
-              <button type="submit">Search</button>
-            </form>
+            <LiveSearch products={searchProducts} />
             <nav className="nav-links" aria-label="Main">
               <Link href="/shop/dashboard">Shop</Link>
               <Link href="/admin/dashboard">Admin</Link>

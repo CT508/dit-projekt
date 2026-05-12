@@ -11,6 +11,7 @@ export default function AdminMasterEansPage() {
         <p className="muted">Create, approve and enrich master EAN records. EAN is the identity; SEO, text and media are admin-managed metadata.</p>
         <div className="admin-actions">
           <Link className="button" href="/admin/master-eans/new">Add master product</Link>
+          <Link className="secondary-button" href="/admin/master-eans/import">Import CSV</Link>
           <Link className="secondary-button" href="/admin/import-logs">Review rejected feed rows</Link>
         </div>
       </section>

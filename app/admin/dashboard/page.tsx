@@ -13,6 +13,7 @@ export default function AdminDashboardPage() {
         <p className="muted">Control master products, SEO, media, shop feeds, import errors, categories, commissions and site settings.</p>
         <div className="admin-actions">
           <Link className="button" href="/admin/master-eans/new">Add master product</Link>
+          <Link className="secondary-button" href="/admin/master-eans/import">Import master CSV</Link>
           <Link className="secondary-button" href="/admin/master-eans">Manage products</Link>
           <Link className="secondary-button" href="/admin/import-logs">Review imports</Link>
         </div>

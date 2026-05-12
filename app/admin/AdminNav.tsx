@@ -3,6 +3,7 @@ import Link from "next/link";
 const links = [
   { href: "/admin/dashboard", label: "Dashboard" },
   { href: "/admin/master-eans", label: "Master products" },
+  { href: "/admin/master-eans/import", label: "Import CSV" },
   { href: "/admin/master-eans/new", label: "Add product" },
   { href: "/admin/shops", label: "Shops" },
   { href: "/admin/import-logs", label: "Imports" },
@@ -19,4 +20,3 @@ export function AdminNav() {
     </nav>
   );
 }
-
