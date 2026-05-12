@@ -71,6 +71,7 @@ export default function AdminMasterProductImportPage() {
       return result;
     }, {});
   }, [fieldMapping]);
+  const hasRequiredMappings = Boolean(reverseMapping.ean && reverseMapping.productName);
 
   function updateDetectedColumns(nextCsvText: string, nextDelimiter = delimiter) {
     const columns = detectColumns(nextCsvText, normalizeDelimiter(nextDelimiter));
@@ -226,13 +227,16 @@ export default function AdminMasterProductImportPage() {
             <button
               className="secondary-button"
               type="button"
-              disabled={isValidating || !importResult || importResult.acceptedRows === 0}
+              disabled={isValidating}
               onClick={() => void submitImport("create")}
             >
-              Create master products
+              Create valid master products
             </button>
             <button className="secondary-button" type="button">Save mapping template</button>
           </div>
+          {!hasRequiredMappings ? (
+            <p className="muted">Map one field to EAN and one field to Product name before creating master products.</p>
+          ) : null}
         </form>
       </section>
 

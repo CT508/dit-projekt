@@ -213,7 +213,13 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({
-    status: importMode === "create" && canImport ? "IMPORTED" : errors.length > 0 ? "PARTIAL" : "READY_TO_IMPORT",
+    status: missingRequiredMappings.length > 0
+      ? "MAPPING_REQUIRED"
+      : importMode === "create" && canImport
+      ? "IMPORTED"
+      : errors.length > 0
+      ? "PARTIAL"
+      : "READY_TO_IMPORT",
     importMode,
     delimiter: delimiterValue,
     headers,
