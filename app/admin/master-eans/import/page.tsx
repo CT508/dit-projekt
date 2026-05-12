@@ -194,9 +194,11 @@ export default function AdminMasterProductImportPage() {
           </section>
 
           <section className="mapping-grid mapping-grid-wide" aria-label="CSV field mapping">
-            <div className="mapping-heading">Field found in file</div>
-            <div className="mapping-heading">Sample value</div>
-            <div className="mapping-heading">Map to</div>
+            <div className="mapping-header-row">
+              <div className="mapping-heading">Field found in file</div>
+              <div className="mapping-heading">Sample value</div>
+              <div className="mapping-heading">Map to</div>
+            </div>
             {detectedColumns.map((column) => (
               <div className="mapping-row" key={column.name}>
                 <strong>{column.name}</strong>

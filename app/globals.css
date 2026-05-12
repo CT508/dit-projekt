@@ -517,16 +517,16 @@ textarea {
 
 .mapping-grid {
   display: grid;
-  grid-template-columns: minmax(180px, 1fr) minmax(220px, 1fr) 100px;
   gap: 0;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
 }
 
-.mapping-heading,
+.mapping-header-row,
 .mapping-row {
-  display: contents;
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(220px, 1fr) 100px;
 }
 
 .mapping-heading,
@@ -546,7 +546,8 @@ textarea {
   border-bottom: 0;
 }
 
-.mapping-grid-wide {
+.mapping-grid-wide .mapping-header-row,
+.mapping-grid-wide .mapping-row {
   grid-template-columns: minmax(170px, .8fr) minmax(220px, 1fr) minmax(220px, 1fr);
 }
 
