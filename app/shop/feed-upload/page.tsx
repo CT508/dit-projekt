@@ -30,6 +30,30 @@ export default function FeedUploadPage() {
           Every product is normalized and validated against the approved master EAN database before it can be published.
         </p>
         <form className="form-grid" action="/api/shop/imports/xml" method="post">
+          <div className="field-grid">
+            <label>
+              Shop name
+              <input name="shopName" defaultValue="Grafisk Handel" />
+            </label>
+            <label>
+              Shop country
+              <select name="shopCountryCode" defaultValue="DK">
+                <option value="DK">Denmark</option>
+                <option value="DE">Germany</option>
+                <option value="NL">Netherlands</option>
+                <option value="PL">Poland</option>
+                <option value="SE">Sweden</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            Delivers to countries
+            <input name="deliveryCountries" defaultValue="DK,SE" />
+          </label>
+          <label>
+            Scheduled feed URL
+            <input name="feedUrl" placeholder="https://shop.example.com/feed.xml" />
+          </label>
           <label>
             Feed format
             <input name="feedType" value="XML" readOnly />
@@ -42,7 +66,7 @@ export default function FeedUploadPage() {
             XML content
             <textarea name="xml" defaultValue={exampleXml} />
           </label>
-          <button className="button" type="submit">Validate XML feed</button>
+          <button className="button" type="submit">Import XML feed</button>
         </form>
       </section>
       <section className="panel" style={{ marginTop: 16 }}>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import type { FormEvent } from "react";
+import { useMemo, useRef, useState } from "react";
 import { AdminNav } from "../../AdminNav";
 
 const exampleCsv = `PROD_NUM;LANGUAGE_ID;PROD_NAME;VENDOR_NUM;PROD_BARCODE_NUMBER
@@ -25,13 +26,42 @@ type DetectedColumn = {
   sample: string;
 };
 
+type ImportResult = {
+  status: string;
+  importMode: string;
+  totalRows: number;
+  acceptedRows: number;
+  createRows: number;
+  updateRows: number;
+  persistedRows: number;
+  rejectedRows: number;
+  missingRequiredMappings: string[];
+  readyProducts: Array<{
+    ean: string;
+    productName: string;
+    slug: string;
+    action: string;
+  }>;
+  errors: Array<{
+    rowNumber: number;
+    rawEan: string;
+    errorCode: string;
+    errorMessage: string;
+  }>;
+  note: string;
+};
+
 export default function AdminMasterProductImportPage() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [csvText, setCsvText] = useState(exampleCsv);
   const [delimiter, setDelimiter] = useState(";");
   const [detectedColumns, setDetectedColumns] = useState<DetectedColumn[]>(detectColumns(exampleCsv, ";"));
   const [fieldMapping, setFieldMapping] = useState<Record<string, string>>(() => {
     return autoMapColumns(detectColumns(exampleCsv, ";").map((column) => column.name));
   });
+  const [importResult, setImportResult] = useState<ImportResult | null>(null);
+  const [isValidating, setIsValidating] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const reverseMapping = useMemo(() => {
     return Object.entries(fieldMapping).reduce<Record<string, string>>((result, [sourceColumn, targetField]) => {
@@ -54,6 +84,39 @@ export default function AdminMasterProductImportPage() {
     updateDetectedColumns(text);
   }
 
+  async function validateImport(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    await submitImport("validate");
+  }
+
+  async function submitImport(importMode: "validate" | "create") {
+    if (!formRef.current) {
+      return;
+    }
+
+    setIsValidating(true);
+    setSubmitError("");
+
+    try {
+      const formData = new FormData(formRef.current);
+      formData.set("importMode", importMode);
+      const response = await fetch("/api/admin/master-products/import", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error(`Import request failed with status ${response.status}.`);
+      }
+
+      setImportResult(await response.json());
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Import request failed.");
+    } finally {
+      setIsValidating(false);
+    }
+  }
+
   return (
     <main className="shell">
       <AdminNav />
@@ -62,7 +125,7 @@ export default function AdminMasterProductImportPage() {
         <p className="muted">
           Upload a supplier master product file. The importer reads the header row first, then asks how those fields should map to master product data.
         </p>
-        <form className="admin-form" action="/api/admin/master-products/import" method="post" encType="multipart/form-data">
+        <form ref={formRef} className="admin-form" onSubmit={validateImport}>
           <div className="field-grid">
             <label>
               <span>CSV file</span>
@@ -157,11 +220,97 @@ export default function AdminMasterProductImportPage() {
           </section>
 
           <div className="admin-actions">
-            <button className="button" type="submit">Validate CSV mapping</button>
+            <button className="button" type="submit" disabled={isValidating}>
+              {isValidating ? "Validating..." : "Validate import"}
+            </button>
+            <button
+              className="secondary-button"
+              type="button"
+              disabled={isValidating || !importResult || importResult.acceptedRows === 0}
+              onClick={() => void submitImport("create")}
+            >
+              Create master products
+            </button>
             <button className="secondary-button" type="button">Save mapping template</button>
           </div>
         </form>
       </section>
+
+      {submitError ? (
+        <section className="panel import-result-panel import-result-error" style={{ marginTop: 16 }}>
+          <h2>Import validation failed</h2>
+          <p>{submitError}</p>
+        </section>
+      ) : null}
+
+      {importResult ? (
+        <section className="panel import-result-panel" style={{ marginTop: 16 }}>
+          <div>
+            <h2>Import validation result</h2>
+            <p className="muted">{importResult.note}</p>
+          </div>
+          <div className="stat-grid">
+            <div className="stat"><strong>{importResult.totalRows}</strong><span>Total rows</span></div>
+            <div className="stat"><strong>{importResult.acceptedRows}</strong><span>Ready products</span></div>
+            <div className="stat"><strong>{importResult.createRows}</strong><span>New products</span></div>
+            <div className="stat"><strong>{importResult.updateRows}</strong><span>Updates</span></div>
+            <div className="stat"><strong>{importResult.rejectedRows}</strong><span>Rejected rows</span></div>
+          </div>
+          {importResult.status === "IMPORTED" ? (
+            <div className="success-box">
+              {importResult.persistedRows} master products saved. {importResult.createRows} are new and {importResult.updateRows} are updates.
+            </div>
+          ) : null}
+          {importResult.missingRequiredMappings.length > 0 ? (
+            <div className="error-item">
+              Missing required mappings: {importResult.missingRequiredMappings.join(", ")}
+            </div>
+          ) : null}
+          {importResult.errors.length > 0 ? (
+            <div className="error-list">
+              {importResult.errors.slice(0, 20).map((error) => (
+                <div className="error-item" key={`${error.rowNumber}-${error.errorCode}`}>
+                  <strong>Row {error.rowNumber}: {error.errorCode}</strong>
+                  <span>{error.rawEan ? `EAN value: ${error.rawEan}. ` : ""}{error.errorMessage}</span>
+                </div>
+              ))}
+              {importResult.errors.length > 20 ? (
+                <p className="muted">Showing the first 20 errors of {importResult.errors.length}.</p>
+              ) : null}
+            </div>
+          ) : (
+            <div className="success-box">
+              {importResult.acceptedRows} master products are ready to create or update.
+            </div>
+          )}
+          {importResult.readyProducts.length > 0 ? (
+            <div className="import-preview-table">
+              <h3>Ready master products</h3>
+              <table className="offer-table">
+                <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Product name</th>
+                    <th>EAN</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {importResult.readyProducts.slice(0, 20).map((product) => (
+                    <tr key={product.ean}>
+                      <td>{product.action === "create" ? "Create" : "Update"}</td>
+                      <td>{product.productName}</td>
+                      <td>{product.ean}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {importResult.readyProducts.length > 20 ? (
+                <p className="muted">Showing the first 20 ready products of {importResult.readyProducts.length}.</p>
+              ) : null}
+            </div>
+          ) : null}
+        </section>
+      ) : null}
 
       <section className="panel" style={{ marginTop: 16 }}>
         <h2>Import rules</h2>

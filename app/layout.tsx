@@ -1,17 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import type React from "react";
 import Link from "next/link";
 import { LiveSearch } from "./components/LiveSearch";
-import { products } from "@/lib/data/mock-data";
-
-const searchProducts = products.map(({ ean, slug, productName, brand, category, imageUrl }) => ({
-  ean,
-  slug,
-  productName,
-  brand,
-  category,
-  imageUrl
-}));
+import { getProducts } from "@/lib/data/products-db";
 
 export const metadata: Metadata = {
   title: "PrisPuls EAN Compare",
@@ -21,7 +13,17 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const products = await getProducts();
+  const searchProducts = products.map(({ ean, slug, productName, brand, category, imageUrl }) => ({
+    ean,
+    slug,
+    productName,
+    brand,
+    category,
+    imageUrl
+  }));
+
   return (
     <html lang="en">
       <body>

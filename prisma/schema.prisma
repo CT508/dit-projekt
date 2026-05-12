@@ -62,7 +62,10 @@ model Shop {
   slug            String          @unique
   status          ShopStatus      @default(PENDING)
   websiteUrl      String
+  feedUrl         String?
+  feedEnabled     Boolean         @default(false)
   countryCode     String          @default("DK")
+  deliveryCountries String[]      @default([])
   logoUrl         String?
   contactEmail    String?
   contactPhone    String?
@@ -71,6 +74,7 @@ model Shop {
   pricesIncludeVat Boolean        @default(true)
   rating          Decimal?        @db.Decimal(3, 2)
   defaultCurrency String          @default("DKK")
+  lastImportedAt  DateTime?
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 

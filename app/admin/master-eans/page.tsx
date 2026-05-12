@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { AdminNav } from "../AdminNav";
-import { products } from "@/lib/data/mock-data";
+import { getProducts } from "@/lib/data/products-db";
 
-export default function AdminMasterEansPage() {
+export default async function AdminMasterEansPage() {
+  const products = await getProducts();
+
   return (
     <main className="shell">
       <AdminNav />

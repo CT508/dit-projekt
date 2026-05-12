@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminNav } from "../../../AdminNav";
-import { findProductByEan } from "@/lib/data/mock-data";
+import { findProductByEan } from "@/lib/data/products-db";
 
-export default function EditMasterProductPage({ params }: { params: { ean: string } }) {
-  const product = findProductByEan(params.ean);
+export default async function EditMasterProductPage({ params }: { params: { ean: string } }) {
+  const product = await findProductByEan(params.ean);
   if (!product) {
     notFound();
   }
@@ -69,4 +69,3 @@ export default function EditMasterProductPage({ params }: { params: { ean: strin
     </main>
   );
 }
-

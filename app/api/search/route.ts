@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { searchProducts } from "@/lib/data/mock-data";
+import { searchProducts } from "@/lib/data/products-db";
 
-export function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get("q") ?? "";
-  return NextResponse.json({ products: searchProducts(query) });
+  return NextResponse.json({ products: await searchProducts(query) });
 }
-

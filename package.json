@@ -6,13 +6,15 @@
     "node": "20.x"
   },
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test:feed": "node scripts/validate-google-feed.mjs live-feed.xml 8715946668031",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma db push"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

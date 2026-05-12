@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { findProductByEan, sortOffers } from "@/lib/data/mock-data";
+import { findProductByEan, sortOffers } from "@/lib/data/products-db";
 
-export function GET(request: NextRequest, { params }: { params: { ean: string } }) {
-  const product = findProductByEan(params.ean);
+export async function GET(request: NextRequest, { params }: { params: { ean: string } }) {
+  const product = await findProductByEan(params.ean);
 
   if (!product) {
     return NextResponse.json({ error: "PRODUCT_NOT_FOUND" }, { status: 404 });
@@ -15,4 +15,3 @@ export function GET(request: NextRequest, { params }: { params: { ean: string } 
     }
   });
 }
-

@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { products } from "@/lib/data/mock-data";
+import { getProducts } from "@/lib/data/products-db";
 
-export default function CategoryPage({ params }: { params: { categorySlug: string } }) {
+export default async function CategoryPage({ params }: { params: { categorySlug: string } }) {
+  const products = await getProducts();
   const categoryName = params.categorySlug.replace(/-/g, " ");
   const results = products.filter((product) => {
     return product.category.toLowerCase().replace(/\s+/g, "-") === params.categorySlug;
@@ -37,4 +38,3 @@ export default function CategoryPage({ params }: { params: { categorySlug: strin
     </main>
   );
 }
-

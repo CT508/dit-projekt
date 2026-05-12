@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { searchProducts } from "@/lib/data/mock-data";
+import { searchProducts } from "@/lib/data/products-db";
 
-export default function SearchPage({ searchParams }: { searchParams: { q?: string } }) {
+export default async function SearchPage({ searchParams }: { searchParams: { q?: string } }) {
   const query = searchParams.q ?? "";
-  const results = searchProducts(query);
+  const results = await searchProducts(query);
 
   return (
     <main className="shell">

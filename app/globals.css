@@ -582,6 +582,28 @@ textarea {
   font-size: .86rem;
 }
 
+.import-result-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.import-result-error {
+  border-color: #ffd1d6;
+}
+
+.success-box {
+  border-left: 4px solid var(--green);
+  background: #f0fbf5;
+  padding: 12px;
+  color: #075d35;
+  font-weight: 800;
+}
+
+.import-preview-table {
+  display: grid;
+  gap: 10px;
+}
+
 .check-list {
   display: grid;
   gap: 8px;

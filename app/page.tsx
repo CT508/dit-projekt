@@ -1,23 +1,28 @@
 import Link from "next/link";
-import { products } from "@/lib/data/mock-data";
+import type { MasterProductView } from "@/lib/data/mock-data";
+import { getProducts } from "@/lib/data/products-db";
 import { calculateVatPrices } from "@/lib/vat/eu-vat";
 import { LiveSearch } from "./components/LiveSearch";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const searchProducts = products.map(({ ean, slug, productName, brand, category, imageUrl }) => ({
-  ean,
-  slug,
-  productName,
-  brand,
-  category,
-  imageUrl
-}));
-
-export default function HomePage() {
+export default async function HomePage() {
+  const products = await getProducts();
+  const searchProducts = products.map(({ ean, slug, productName, brand, category, imageUrl }) => ({
+    ean,
+    slug,
+    productName,
+    brand,
+    category,
+    imageUrl
+  }));
   const activeOffers = products.reduce((total, product) => total + product.offers.length, 0);
-  const lowestExVatPrice = (offers: typeof products[number]["offers"]) => {
+  const lowestExVatPrice = (offers: MasterProductView["offers"]) => {
+    if (offers.length === 0) {
+      return null;
+    }
+
     return Math.min(...offers.map((offer) => {
       return calculateVatPrices(offer.price, offer.shopCountryCode, offer.pricesIncludeVat).priceExVat;
     }));
@@ -54,7 +59,9 @@ export default function HomePage() {
               <div>
                 <strong>{product.productName}</strong>
                 <p className="muted">{product.brand} | {product.category} | EAN {product.ean}</p>
-                <span className="price">from {lowestExVatPrice(product.offers).toFixed(2)} DKK excl. VAT</span>
+                <span className="price">
+                  {lowestExVatPrice(product.offers) === null ? "No active offers" : `from ${lowestExVatPrice(product.offers)!.toFixed(2)} DKK excl. VAT`}
+                </span>
               </div>
             </Link>
           ))}

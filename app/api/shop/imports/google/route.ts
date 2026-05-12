@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { products } from "@/lib/data/mock-data";
+import { hasDatabaseUrl, prisma } from "@/lib/db/prisma";
 import { validateImportStream } from "@/lib/imports/import-feed";
 import { formatBytes, maxFeedBytes, parseContentLength } from "@/lib/imports/feed-limits";
 import { parseGoogleMerchantFeedStream } from "@/lib/imports/parse-google-merchant-stream";
@@ -50,8 +50,15 @@ export async function POST(request: NextRequest) {
 
   const rows = parseGoogleMerchantFeedStream(feedStream);
   const report = await validateImportStream(rows, async (ean) => {
-    const product = products.find((item) => item.ean === ean);
-    return product ? { id: product.ean, ean: product.ean, status: "APPROVED" } : null;
+    if (!hasDatabaseUrl()) {
+      return null;
+    }
+
+    const product = await prisma.masterProduct.findUnique({
+      where: { ean },
+      select: { id: true, ean: true, status: true }
+    });
+    return product ? { id: product.id, ean: product.ean, status: product.status as "APPROVED" | "PENDING" | "DISABLED" | "DELETED" } : null;
   }, { maxRows: 250000 });
 
   return NextResponse.json({

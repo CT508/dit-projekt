@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { products } from "@/lib/data/mock-data";
+import { getProducts } from "@/lib/data/products-db";
 
-export default function ShopDashboardPage() {
+export default async function ShopDashboardPage() {
+  const products = await getProducts();
   const activeOffers = products.flatMap((product) => product.offers).length;
 
   return (

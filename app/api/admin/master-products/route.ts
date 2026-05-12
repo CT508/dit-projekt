@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import { products } from "@/lib/data/mock-data";
+import { getProducts } from "@/lib/data/products-db";
 
-export function GET() {
+export async function GET() {
+  const products = await getProducts();
+
   return NextResponse.json({
     products: products.map((product) => ({
       ean: product.ean,
@@ -13,4 +15,3 @@ export function GET() {
     }))
   });
 }
-

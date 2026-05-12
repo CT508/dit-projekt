@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { findProductByEan, sortOffers } from "@/lib/data/mock-data";
+import { findProductByEan, sortOffers } from "@/lib/data/products-db";
 import { calculateVatPrices, getCountryName } from "@/lib/vat/eu-vat";
 
 export const dynamic = "force-dynamic";
@@ -80,14 +80,14 @@ function trackedShopUrl(productUrl: string, shopName: string) {
   }
 }
 
-export default function ProductPage({
+export default async function ProductPage({
   params,
   searchParams
 }: {
   params: { ean: string; slug: string };
   searchParams: { sort?: string; country?: string };
 }) {
-  const product = findProductByEan(params.ean);
+  const product = await findProductByEan(params.ean);
   if (!product) {
     notFound();
   }
