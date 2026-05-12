@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { searchProducts } from "@/lib/data/products-db";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function SearchPage({ searchParams }: { searchParams: { q?: string } }) {
   const query = searchParams.q ?? "";
   const results = await searchProducts(query);

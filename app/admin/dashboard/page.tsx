@@ -2,6 +2,9 @@ import Link from "next/link";
 import { AdminNav } from "../AdminNav";
 import { getProducts } from "@/lib/data/products-db";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AdminDashboardPage() {
   const products = await getProducts();
   const activeOffers = products.flatMap((product) => product.offers).length;

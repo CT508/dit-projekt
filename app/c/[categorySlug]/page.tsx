@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { getProducts } from "@/lib/data/products-db";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function CategoryPage({ params }: { params: { categorySlug: string } }) {
   const products = await getProducts();
   const categoryName = params.categorySlug.replace(/-/g, " ");
