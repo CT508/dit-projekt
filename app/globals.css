@@ -104,6 +104,10 @@ a {
   padding: 0 18px;
 }
 
+.search-form.live-search {
+  overflow: visible;
+}
+
 .live-search-results {
   position: absolute;
   top: calc(100% + 6px);
