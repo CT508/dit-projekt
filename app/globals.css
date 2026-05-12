@@ -546,6 +546,42 @@ textarea {
   border-bottom: 0;
 }
 
+.mapping-grid-wide {
+  grid-template-columns: minmax(170px, .8fr) minmax(220px, 1fr) minmax(220px, 1fr);
+}
+
+.detected-columns {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafb;
+}
+
+.detected-columns h2 {
+  margin: 0 0 4px;
+}
+
+.column-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.column-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  color: var(--ink);
+  font-weight: 800;
+  font-size: .86rem;
+}
+
 .check-list {
   display: grid;
   gap: 8px;

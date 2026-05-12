@@ -20,6 +20,17 @@ export function validateEan13Checksum(ean: string): boolean {
 }
 
 export function validateEan(input: unknown): EanValidationResult {
+  const rawValue = input === null || input === undefined ? "" : String(input).trim();
+
+  if (/^\d+(?:[,.]\d+)?e\+\d+$/i.test(rawValue)) {
+    return {
+      valid: false,
+      normalizedEan: rawValue,
+      code: "EAN_SCIENTIFIC_NOTATION",
+      message: "EAN looks like scientific notation from a spreadsheet export. Export EAN as text with all 13 digits."
+    };
+  }
+
   const normalizedEan = normalizeEan(input);
 
   if (!normalizedEan) {
@@ -60,4 +71,3 @@ export function validateEan(input: unknown): EanValidationResult {
 
   return { valid: true, normalizedEan };
 }
-
