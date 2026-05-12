@@ -15,23 +15,33 @@ type SearchProduct = {
 export function LiveSearch({ products }: { products: SearchProduct[] }) {
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
+  const compactQuery = compactSearchValue(query);
 
   const results = useMemo(() => {
     if (normalizedQuery.length < 2) {
       return [];
     }
 
+    const queryTokens = normalizedQuery.split(/\s+/).filter(Boolean);
+    const compactTokens = queryTokens.map(compactSearchValue).filter(Boolean);
+
     return products
       .filter((product) => {
-        return [
+        const searchableFields = [
           product.ean,
           product.productName,
           product.brand,
           product.category
-        ].some((value) => value.toLowerCase().includes(normalizedQuery));
+        ];
+        const searchableText = searchableFields.join(" ").toLowerCase();
+        const compactSearchableText = compactSearchValue(searchableFields.join(""));
+
+        return queryTokens.every((token) => searchableText.includes(token))
+          || compactTokens.every((token) => compactSearchableText.includes(token))
+          || compactSearchableText.includes(compactQuery);
       })
       .slice(0, 6);
-  }, [normalizedQuery, products]);
+  }, [compactQuery, normalizedQuery, products]);
 
   return (
     <form className="search-form live-search" action="/search">
@@ -57,4 +67,8 @@ export function LiveSearch({ products }: { products: SearchProduct[] }) {
       ) : null}
     </form>
   );
+}
+
+function compactSearchValue(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
