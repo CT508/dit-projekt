@@ -407,6 +407,50 @@ a {
   padding: 0;
 }
 
+.delivery-country-section {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafb;
+}
+
+.delivery-country-section h2 {
+  margin: 0 0 4px;
+}
+
+.country-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.country-checkbox {
+  display: grid;
+  grid-template-columns: 18px 26px 1fr;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.country-checkbox input {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+}
+
+.country-flag {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
 textarea,
 input,
 select {
@@ -605,6 +649,88 @@ textarea {
   gap: 10px;
 }
 
+.shop-profile-hero {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 22px;
+  align-items: center;
+}
+
+.shop-profile-logo-wrap {
+  display: grid;
+  place-items: center;
+}
+
+.shop-profile-logo,
+.shop-profile-logo-placeholder {
+  width: 128px;
+  height: 128px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafb;
+}
+
+.shop-profile-logo {
+  object-fit: contain;
+  padding: 14px;
+}
+
+.shop-profile-logo-placeholder {
+  display: grid;
+  place-items: center;
+  color: white;
+  background: linear-gradient(135deg, var(--green), var(--blue));
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.shop-profile-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: 16px;
+}
+
+.shop-detail-list {
+  display: grid;
+  gap: 10px;
+}
+
+.shop-detail-list div {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.shop-detail-list div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.shop-detail-list span {
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.delivery-country-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.delivery-country-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #f8fafb;
+  font-weight: 850;
+}
+
 .check-list {
   display: grid;
   gap: 8px;
@@ -628,7 +754,10 @@ textarea {
   .seo-panel,
   .country-selector,
   .admin-layout,
+  .shop-profile-hero,
+  .shop-profile-grid,
   .field-grid,
+  .country-checkbox-grid,
   .gallery-grid {
     grid-template-columns: 1fr;
   }
