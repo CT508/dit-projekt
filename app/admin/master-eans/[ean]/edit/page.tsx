@@ -29,6 +29,7 @@ export default async function EditMasterProductPage({ params }: { params: { ean:
             <label><span>EAN</span><input defaultValue={product.ean} readOnly /></label>
             <label><span>Status</span><select defaultValue="APPROVED"><option>APPROVED</option><option>PENDING</option><option>DISABLED</option></select></label>
             <label><span>Product name</span><input defaultValue={product.productName} /></label>
+            <label><span>Manufacturer SKU / part number</span><input defaultValue={product.manufacturerSku ?? ""} /></label>
             <label><span>Slug</span><input defaultValue={product.slug} /></label>
             <label><span>Brand</span><input defaultValue={product.brand} /></label>
             <label><span>Category</span><input defaultValue={product.category} /></label>

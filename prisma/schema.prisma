@@ -104,6 +104,7 @@ model MasterProduct {
   ean            String         @unique
   slug           String
   productName    String
+  manufacturerSku String?
   brand          String?
   categoryId     String?
   imageUrl       String?
@@ -123,6 +124,7 @@ model MasterProduct {
   priceHistory   PriceHistory[]
 
   @@index([slug])
+  @@index([manufacturerSku])
   @@index([status])
   @@index([categoryId])
 }

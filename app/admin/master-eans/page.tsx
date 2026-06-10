@@ -26,6 +26,7 @@ export default async function AdminMasterEansPage() {
             <tr>
               <th>EAN</th>
               <th>Product</th>
+              <th>Manufacturer SKU</th>
               <th>SEO</th>
               <th>Images</th>
               <th>Brand</th>
@@ -40,6 +41,7 @@ export default async function AdminMasterEansPage() {
               <tr key={product.ean}>
                 <td><strong>{product.ean}</strong></td>
                 <td>{product.productName}</td>
+                <td>{product.manufacturerSku || "-"}</td>
                 <td>{product.seoTitle ? <span className="badge">SEO ready</span> : <span>Missing</span>}</td>
                 <td>{product.gallery.length}</td>
                 <td>{product.brand}</td>

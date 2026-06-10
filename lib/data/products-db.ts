@@ -6,6 +6,7 @@ type DbMasterProduct = {
   ean: string;
   slug: string;
   productName: string;
+  manufacturerSku: string | null;
   brand: string | null;
   imageUrl: string | null;
   gallery: unknown;
@@ -95,6 +96,7 @@ export async function searchProducts(query: string) {
     const searchable = [
       product.ean,
       product.productName,
+      product.manufacturerSku,
       product.brand,
       product.category
     ].join(" ").toLowerCase();
@@ -124,11 +126,17 @@ export function sortOffers(offers: OfferView[], sort: string | null) {
 function mapDbProduct(product: DbMasterProduct): MasterProductView {
   const gallery = parseStringArray(product.gallery);
   const imageUrl = product.imageUrl ?? gallery[0] ?? "";
+  const specifications = parseSpecifications(product.specifications);
+
+  if (product.manufacturerSku && !specifications["Manufacturer SKU"]) {
+    specifications["Manufacturer SKU"] = product.manufacturerSku;
+  }
 
   return {
     ean: product.ean,
     slug: product.slug,
     productName: product.productName,
+    manufacturerSku: product.manufacturerSku ?? "",
     brand: product.brand ?? "",
     category: product.category?.name ?? "Uncategorized",
     imageUrl,
@@ -137,7 +145,7 @@ function mapDbProduct(product: DbMasterProduct): MasterProductView {
     seoTitle: product.seoTitle ?? product.productName,
     seoDescription: product.seoDescription ?? product.description ?? "",
     canonicalUrl: product.canonicalUrl ?? `/p/${product.ean}/${product.slug}`,
-    specifications: parseSpecifications(product.specifications),
+    specifications,
     offers: product.offers.map(mapDbOffer)
   };
 }

@@ -2,6 +2,7 @@ export type MasterProductView = {
   ean: string;
   slug: string;
   productName: string;
+  manufacturerSku?: string;
   brand: string;
   category: string;
   imageUrl: string;
@@ -141,6 +142,7 @@ export const products: MasterProductView[] = [
     ean: "8715946668031",
     slug: "epson-cyan-t44j2-700-ml-blaekpatron",
     productName: "Epson Cyan T44J2 - 700 ml ink cartridge",
+    manufacturerSku: "C13T44J240",
     brand: "Epson",
     category: "Printer Ink",
     imageUrl: "https://www.grafisk-handel.dk/images/a1234-hires-en-int-surecolor_sc-p7500-sc-p9500_c_700 kopier.jpg",

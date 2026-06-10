@@ -11,6 +11,7 @@ const targetFields = [
   { name: "", label: "Do not import", required: false },
   { name: "ean", label: "EAN", required: true },
   { name: "productName", label: "Product name", required: true },
+  { name: "manufacturerSku", label: "Manufacturer SKU / part number", required: false },
   { name: "brand", label: "Brand", required: false },
   { name: "category", label: "Category", required: false },
   { name: "imageUrl", label: "Main image URL", required: false },
@@ -39,6 +40,7 @@ type ImportResult = {
   readyProducts: Array<{
     ean: string;
     productName: string;
+    manufacturerSku: string;
     slug: string;
     action: string;
   }>;
@@ -85,9 +87,9 @@ export default function AdminMasterProductImportPage() {
     updateDetectedColumns(text);
   }
 
-  async function validateImport(event: FormEvent<HTMLFormElement>) {
+  async function importProducts(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    await submitImport("validate");
+    await submitImport("create");
   }
 
   async function submitImport(importMode: "validate" | "create") {
@@ -106,11 +108,12 @@ export default function AdminMasterProductImportPage() {
         body: formData
       });
 
+      const result = await response.json();
       if (!response.ok) {
-        throw new Error(`Import request failed with status ${response.status}.`);
+        throw new Error(result.errorMessage ?? result.error ?? `Import request failed with status ${response.status}.`);
       }
 
-      setImportResult(await response.json());
+      setImportResult(result);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Import request failed.");
     } finally {
@@ -126,7 +129,7 @@ export default function AdminMasterProductImportPage() {
         <p className="muted">
           Upload a supplier master product file. The importer reads the header row first, then asks how those fields should map to master product data.
         </p>
-        <form ref={formRef} className="admin-form" onSubmit={validateImport}>
+        <form ref={formRef} className="admin-form" onSubmit={importProducts}>
           <div className="field-grid">
             <label>
               <span>CSV file</span>
@@ -172,6 +175,7 @@ export default function AdminMasterProductImportPage() {
 
           <input type="hidden" name="map_ean" value={reverseMapping.ean ?? ""} />
           <input type="hidden" name="map_productName" value={reverseMapping.productName ?? ""} />
+          <input type="hidden" name="map_manufacturerSku" value={reverseMapping.manufacturerSku ?? ""} />
           <input type="hidden" name="map_brand" value={reverseMapping.brand ?? ""} />
           <input type="hidden" name="map_category" value={reverseMapping.category ?? ""} />
           <input type="hidden" name="map_imageUrl" value={reverseMapping.imageUrl ?? ""} />
@@ -224,15 +228,15 @@ export default function AdminMasterProductImportPage() {
 
           <div className="admin-actions">
             <button className="button" type="submit" disabled={isValidating}>
-              {isValidating ? "Validating..." : "Validate import"}
+              {isValidating ? "Importing..." : "Import master products"}
             </button>
             <button
               className="secondary-button"
               type="button"
               disabled={isValidating}
-              onClick={() => void submitImport("create")}
+              onClick={() => void submitImport("validate")}
             >
-              Create valid master products
+              Validate only
             </button>
             <button className="secondary-button" type="button">Save mapping template</button>
           </div>
@@ -252,7 +256,7 @@ export default function AdminMasterProductImportPage() {
       {importResult ? (
         <section className="panel import-result-panel" style={{ marginTop: 16 }}>
           <div>
-            <h2>Import validation result</h2>
+            <h2>Import result</h2>
             <p className="muted">{importResult.note}</p>
           </div>
           <div className="stat-grid">
@@ -297,6 +301,7 @@ export default function AdminMasterProductImportPage() {
                   <tr>
                     <th>Action</th>
                     <th>Product name</th>
+                    <th>Manufacturer SKU</th>
                     <th>EAN</th>
                   </tr>
                 </thead>
@@ -305,6 +310,7 @@ export default function AdminMasterProductImportPage() {
                     <tr key={product.ean}>
                       <td>{product.action === "create" ? "Create" : "Update"}</td>
                       <td>{product.productName}</td>
+                      <td>{product.manufacturerSku || "-"}</td>
                       <td>{product.ean}</td>
                     </tr>
                   ))}
@@ -323,6 +329,7 @@ export default function AdminMasterProductImportPage() {
         <ul className="check-list">
           <li>EAN is required and must pass normalization and checksum validation.</li>
           <li>Product name is required for new master products.</li>
+          <li>Manufacturer SKU or part number can be imported independently from EAN.</li>
           <li>Existing EANs are updated with mapped SEO, text, category, brand and image data.</li>
           <li>Gallery URLs can be separated with a pipe character.</li>
           <li>Specifications can be imported as key=value pairs separated with a pipe character.</li>
@@ -390,6 +397,8 @@ function autoMapColumns(columns: string[]) {
       mapping[column] = "ean";
     } else if (["prod_name", "product_name", "name", "title"].includes(normalized)) {
       mapping[column] = "productName";
+    } else if (["vendor_num", "vendor_number", "manufacturer_sku", "manufacturer_number", "manufacturer_part_number", "mpn", "sku"].includes(normalized)) {
+      mapping[column] = "manufacturerSku";
     } else if (["brand", "maker", "manufacturer"].includes(normalized)) {
       mapping[column] = "brand";
     } else if (["category", "group", "prod_group"].includes(normalized)) {

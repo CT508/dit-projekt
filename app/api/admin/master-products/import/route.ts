@@ -6,6 +6,7 @@ import { hasDatabaseUrl, prisma } from "@/lib/db/prisma";
 const targetFields = [
   "ean",
   "productName",
+  "manufacturerSku",
   "brand",
   "category",
   "imageUrl",
@@ -142,6 +143,7 @@ export async function POST(request: NextRequest) {
     const masterProduct = {
       ean: normalizedEan,
       productName,
+      manufacturerSku: mappedValue(record, mapping, "manufacturerSku"),
       slug: slugify(productName),
       brand: mappedValue(record, mapping, "brand"),
       category: mappedValue(record, mapping, "category"),
@@ -165,57 +167,77 @@ export async function POST(request: NextRequest) {
   const canImport = missingRequiredMappings.length === 0 && acceptedRows > 0;
   let persistedRows = 0;
 
-  if (importMode === "create" && canImport && hasDatabaseUrl()) {
-    for (const product of readyProducts) {
-      const categoryName = product.category;
-      const category = categoryName
-        ? await prisma.category.upsert({
-          where: { slug: slugify(categoryName) },
-          update: { name: categoryName },
-          create: { name: categoryName, slug: slugify(categoryName) }
-        })
-        : null;
+  if (importMode === "create" && canImport && !hasDatabaseUrl()) {
+    return NextResponse.json({
+      error: "DATABASE_REQUIRED",
+      errorMessage: "The import was validated, but no PostgreSQL DATABASE_URL is configured. No master products were saved."
+    }, { status: 503 });
+  }
 
-      await prisma.masterProduct.upsert({
-        where: { ean: product.ean },
-        update: {
-          slug: product.slug,
-          productName: product.productName,
-          brand: product.brand || null,
-          categoryId: category?.id ?? null,
-          imageUrl: product.imageUrl || null,
-          gallery: product.gallery ? product.gallery.split("|").map((item) => item.trim()).filter(Boolean) : [],
-          description: product.description || null,
-          seoTitle: product.seoTitle || null,
-          seoDescription: product.seoDescription || null,
-          specifications: parseSpecifications(product.specifications),
-          status: "APPROVED",
-          approvedAt: new Date()
-        },
-        create: {
-          ean: product.ean,
-          slug: product.slug,
-          productName: product.productName,
-          brand: product.brand || null,
-          categoryId: category?.id ?? null,
-          imageUrl: product.imageUrl || null,
-          gallery: product.gallery ? product.gallery.split("|").map((item) => item.trim()).filter(Boolean) : [],
-          description: product.description || null,
-          seoTitle: product.seoTitle || null,
-          seoDescription: product.seoDescription || null,
-          specifications: parseSpecifications(product.specifications),
-          status: "APPROVED",
-          approvedAt: new Date()
-        }
-      });
-      persistedRows += 1;
+  if (importMode === "create" && canImport) {
+    try {
+      for (const product of readyProducts) {
+        const categoryName = product.category;
+        const category = categoryName
+          ? await prisma.category.upsert({
+            where: { slug: slugify(categoryName) },
+            update: { name: categoryName },
+            create: { name: categoryName, slug: slugify(categoryName) }
+          })
+          : null;
+
+        await prisma.masterProduct.upsert({
+          where: { ean: product.ean },
+          update: {
+            slug: product.slug,
+            productName: product.productName,
+            ...(mapping.manufacturerSku ? { manufacturerSku: product.manufacturerSku || null } : {}),
+            ...(mapping.brand ? { brand: product.brand || null } : {}),
+            ...(mapping.category ? { categoryId: category?.id ?? null } : {}),
+            ...(mapping.imageUrl ? { imageUrl: product.imageUrl || null } : {}),
+            ...(mapping.gallery ? {
+              gallery: product.gallery.split("|").map((item) => item.trim()).filter(Boolean)
+            } : {}),
+            ...(mapping.description ? { description: product.description || null } : {}),
+            ...(mapping.seoTitle ? { seoTitle: product.seoTitle || null } : {}),
+            ...(mapping.seoDescription ? { seoDescription: product.seoDescription || null } : {}),
+            ...(mapping.specifications ? { specifications: parseSpecifications(product.specifications) } : {}),
+            status: "APPROVED",
+            approvedAt: new Date()
+          },
+          create: {
+            ean: product.ean,
+            slug: product.slug,
+            productName: product.productName,
+            manufacturerSku: product.manufacturerSku || null,
+            brand: product.brand || null,
+            categoryId: category?.id ?? null,
+            imageUrl: product.imageUrl || null,
+            gallery: product.gallery ? product.gallery.split("|").map((item) => item.trim()).filter(Boolean) : [],
+            description: product.description || null,
+            seoTitle: product.seoTitle || null,
+            seoDescription: product.seoDescription || null,
+            specifications: parseSpecifications(product.specifications),
+            status: "APPROVED",
+            approvedAt: new Date()
+          }
+        });
+        persistedRows += 1;
+      }
+    } catch (error) {
+      return NextResponse.json({
+        error: "MASTER_PRODUCT_IMPORT_FAILED",
+        errorMessage: error instanceof Error
+          ? `PostgreSQL import failed after ${persistedRows} rows: ${error.message}`
+          : `PostgreSQL import failed after ${persistedRows} rows.`
+      }, { status: 500 });
     }
   }
 
   return NextResponse.json({
     status: missingRequiredMappings.length > 0
       ? "MAPPING_REQUIRED"
-      : importMode === "create" && canImport
+      : importMode === "create" && canImport && persistedRows === acceptedRows
       ? "IMPORTED"
       : errors.length > 0
       ? "PARTIAL"
@@ -233,10 +255,8 @@ export async function POST(request: NextRequest) {
     rejectedRows: errors.length,
     readyProducts,
     errors,
-    note: importMode === "create" && hasDatabaseUrl()
+    note: importMode === "create"
       ? `${persistedRows} master products were saved to PostgreSQL.`
-      : importMode === "create"
-      ? "Master product import completed in mock mode because DATABASE_URL is not configured."
       : "Review the rows below, then create or update the ready master products."
   });
 }

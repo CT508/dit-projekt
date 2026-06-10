@@ -8,6 +8,7 @@ export async function GET() {
     products: products.map((product) => ({
       ean: product.ean,
       productName: product.productName,
+      manufacturerSku: product.manufacturerSku ?? "",
       brand: product.brand,
       category: product.category,
       status: "APPROVED",
