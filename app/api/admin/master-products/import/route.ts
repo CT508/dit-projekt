@@ -50,11 +50,12 @@ function splitCsvLine(line: string, delimiter: string) {
   return cells;
 }
 
-function parseCsv(csv: string, delimiter: string) {
+function parseCsv(csv: string, delimiter: string, skipRows: number) {
   const rows = csv
     .split(/\r?\n/)
     .map((line) => line.trim())
-    .filter(Boolean);
+    .filter(Boolean)
+    .slice(skipRows);
 
   if (rows.length === 0) {
     return { headers: [], records: [] as Record<string, string>[] };
@@ -92,16 +93,24 @@ export async function POST(request: NextRequest) {
   const importMode = String(formData.get("importMode") ?? "validate");
   const delimiterValue = String(formData.get("delimiter") ?? ";");
   const delimiter = delimiterValue === "tab" ? "\t" : delimiterValue;
+  const skipRows = Math.max(0, Number.parseInt(String(formData.get("skipRows") ?? "0"), 10) || 0);
   const uploadedFile = formData.get("file");
   const pastedCsv = String(formData.get("csv") ?? "");
   const csv = uploadedFile instanceof File && uploadedFile.size > 0 ? await uploadedFile.text() : pastedCsv;
+
+  if (!csv.trim()) {
+    return NextResponse.json({
+      error: "CSV_REQUIRED",
+      errorMessage: "Upload a CSV file or paste CSV content before importing master products."
+    }, { status: 400 });
+  }
 
   const mapping = targetFields.reduce<Record<string, string>>((result, field) => {
     result[field] = String(formData.get(`map_${field}`) ?? "");
     return result;
   }, {});
 
-  const { headers, records } = parseCsv(csv, delimiter);
+  const { headers, records } = parseCsv(csv, delimiter, skipRows);
   const missingRequiredMappings = ["ean", "productName"].filter((field) => !mapping[field]);
   const errors: Array<Record<string, string | number>> = [];
   const readyProducts: Array<Record<string, string>> = [];
@@ -110,7 +119,7 @@ export async function POST(request: NextRequest) {
   let updateRows = 0;
 
   for (const [index, record] of records.entries()) {
-    const rowNumber = index + 2;
+    const rowNumber = skipRows + index + 2;
     const rawEan = mappedValue(record, mapping, "ean");
     const productName = mappedValue(record, mapping, "productName");
     const eanResult = validateEan(rawEan);
@@ -244,6 +253,7 @@ export async function POST(request: NextRequest) {
       : "READY_TO_IMPORT",
     importMode,
     delimiter: delimiterValue,
+    skipRows,
     headers,
     mapping,
     missingRequiredMappings,

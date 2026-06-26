@@ -55,12 +55,12 @@ type ImportResult = {
 
 export default function AdminMasterProductImportPage() {
   const formRef = useRef<HTMLFormElement>(null);
-  const [csvText, setCsvText] = useState(exampleCsv);
+  const [csvText, setCsvText] = useState("");
   const [delimiter, setDelimiter] = useState(";");
-  const [detectedColumns, setDetectedColumns] = useState<DetectedColumn[]>(detectColumns(exampleCsv, ";"));
-  const [fieldMapping, setFieldMapping] = useState<Record<string, string>>(() => {
-    return autoMapColumns(detectColumns(exampleCsv, ";").map((column) => column.name));
-  });
+  const [skipRows, setSkipRows] = useState(0);
+  const [detectedColumns, setDetectedColumns] = useState<DetectedColumn[]>([]);
+  const [fieldMapping, setFieldMapping] = useState<Record<string, string>>({});
+  const [selectedFileName, setSelectedFileName] = useState("");
   const [importResult, setImportResult] = useState<ImportResult | null>(null);
   const [isValidating, setIsValidating] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -74,17 +74,22 @@ export default function AdminMasterProductImportPage() {
     }, {});
   }, [fieldMapping]);
   const hasRequiredMappings = Boolean(reverseMapping.ean && reverseMapping.productName);
+  const previewLines = useMemo(() => {
+    return csvText.split(/\r?\n/).filter(Boolean).slice(0, 5);
+  }, [csvText]);
 
-  function updateDetectedColumns(nextCsvText: string, nextDelimiter = delimiter) {
-    const columns = detectColumns(nextCsvText, normalizeDelimiter(nextDelimiter));
+  function updateDetectedColumns(nextCsvText: string, nextDelimiter = delimiter, nextSkipRows = skipRows) {
+    const columns = detectColumns(nextCsvText, normalizeDelimiter(nextDelimiter), nextSkipRows);
     setDetectedColumns(columns);
     setFieldMapping(autoMapColumns(columns.map((column) => column.name)));
   }
 
   async function readCsvFile(file: File) {
     const text = await file.text();
+    setSelectedFileName(file.name);
     setCsvText(text);
     updateDetectedColumns(text);
+    setImportResult(null);
   }
 
   async function importProducts(event: FormEvent<HTMLFormElement>) {
@@ -101,8 +106,14 @@ export default function AdminMasterProductImportPage() {
     setSubmitError("");
 
     try {
+      if (!csvText.trim()) {
+        throw new Error("Upload a CSV file or paste CSV content before importing.");
+      }
+
       const formData = new FormData(formRef.current);
       formData.set("importMode", importMode);
+      formData.set("csv", csvText);
+      formData.set("skipRows", String(skipRows));
       const response = await fetch("/api/admin/master-products/import", {
         method: "POST",
         body: formData
@@ -152,7 +163,7 @@ export default function AdminMasterProductImportPage() {
                 value={delimiter}
                 onChange={(event) => {
                   setDelimiter(event.target.value);
-                  updateDetectedColumns(csvText, event.target.value);
+                  updateDetectedColumns(csvText, event.target.value, skipRows);
                 }}
               >
                 <option value=";">Semicolon (;)</option>
@@ -160,18 +171,57 @@ export default function AdminMasterProductImportPage() {
                 <option value="tab">Tab</option>
               </select>
             </label>
+            <label>
+              <span>Rows to skip before header</span>
+              <input
+                name="skipRows"
+                type="number"
+                min="0"
+                step="1"
+                value={skipRows}
+                onChange={(event) => {
+                  const nextSkipRows = Math.max(0, Number.parseInt(event.target.value, 10) || 0);
+                  setSkipRows(nextSkipRows);
+                  updateDetectedColumns(csvText, delimiter, nextSkipRows);
+                  setImportResult(null);
+                }}
+              />
+            </label>
           </div>
           <label>
             <span>Or paste CSV content for testing</span>
             <textarea
               name="csv"
+              placeholder={exampleCsv}
               value={csvText}
               onChange={(event) => {
+                setSelectedFileName("");
                 setCsvText(event.target.value);
-                updateDetectedColumns(event.target.value);
+                updateDetectedColumns(event.target.value, delimiter, skipRows);
               }}
             />
           </label>
+          {previewLines.length > 0 ? (
+            <section className="detected-columns" aria-label="CSV row preview">
+              <div>
+                <h2>First 5 lines in the file</h2>
+                <p className="muted">Set rows to skip so the real header row is used for mapping.</p>
+              </div>
+              <div className="error-list">
+                {previewLines.map((line, index) => (
+                  <div className="error-item" key={`${index}-${line}`}>
+                    <strong>Line {index + 1}{index < skipRows ? " skipped" : index === skipRows ? " header" : ""}</strong>
+                    <span>{line}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ) : null}
+          {selectedFileName ? (
+            <p className="muted">
+              Loaded file: {selectedFileName}. Detected {Math.max(0, csvText.split(/\r?\n/).filter(Boolean).length - skipRows - 1)} data rows.
+            </p>
+          ) : null}
 
           <input type="hidden" name="map_ean" value={reverseMapping.ean ?? ""} />
           <input type="hidden" name="map_productName" value={reverseMapping.productName ?? ""} />
@@ -343,8 +393,8 @@ function normalizeDelimiter(delimiter: string) {
   return delimiter === "tab" ? "\t" : delimiter;
 }
 
-function detectColumns(csvText: string, delimiter: string): DetectedColumn[] {
-  const rows = csvText.split(/\r?\n/).filter(Boolean);
+function detectColumns(csvText: string, delimiter: string, skipRows: number): DetectedColumn[] {
+  const rows = csvText.split(/\r?\n/).filter(Boolean).slice(skipRows);
   const headers = splitCsvLine(rows[0] ?? "", delimiter);
   const firstDataRow = splitCsvLine(rows[1] ?? "", delimiter);
 
