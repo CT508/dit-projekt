@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "PrisPuls EAN Compare",
   description: "EAN-first price comparison SaaS platform.",
   other: {
-    "x-prispuls-build": "v8-country-no-shipping"
+    "x-prispuls-build": "v37-edit-save-image-upload-live-search"
   }
 };
 
